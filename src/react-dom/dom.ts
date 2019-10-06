@@ -2,7 +2,7 @@
  *
  * There are three types of methods for setting attribute
  */
-export function setAttribute(node: HTMLElement, name: string, value: string) {
+export function setAttribute(node: HTMLElement, name: string, value: string | boolean): void {
     // If it starts with a world "on", we consider this attribute to be a method
     if (/^on[A-Z]\w+$/.test(name)) {
         name = name.toLowerCase()
@@ -11,7 +11,7 @@ export function setAttribute(node: HTMLElement, name: string, value: string) {
     }
 
     // If it is a style syntax
-    // we can set a type string css or a object
+    // Set a type string css or a object
     if (name === 'style') {
         if (value) {
             if (typeof value === 'string') {
@@ -25,11 +25,23 @@ export function setAttribute(node: HTMLElement, name: string, value: string) {
         return
     }
 
+    if (name === 'className') {
+        node.setAttribute('class', String(value) || '')
+        return
+    } else if (name === 'class') {
+        node.removeAttribute(name)
+        return
+    }
+
     // default
     if (name !== 'key' && !value) {
         node.removeAttribute(name)
     } else {
-        node.setAttribute(name, value + '' || '')
+        if (value === true) {
+            node.setAttribute(name, '')
+            return
+        }
+        node.setAttribute(name, String(value) || '')
     }
     return
 }

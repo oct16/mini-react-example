@@ -2,17 +2,12 @@
     "name": "mini-react-example",
     "author": "oct16",
     "version": "1.0.0",
-    "description": "",
+    "description": "mini react example",
     "private": true,
     "dependencies": {},
     "devDependencies": {
-        "@babel/core": "^7.4.4",
-        "@babel/plugin-transform-react-jsx": "^7.3.0",
-        "@babel/preset-env": "^7.4.4",
-        "@babel/preset-typescript": "^7.3.3",
         "@types/html-webpack-plugin": "^3.2.0",
         "@types/node": "^12.0.0",
-        "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.5",
         "html-webpack-plugin": "^3.2.0",
         "prettier": "^1.18.2",
@@ -26,7 +21,7 @@
         "webpack-dev-server": "^3.3.1"
     },
     "scripts": {
-        "dev": "webpack-dev-server --config build/webpack.config.dev.js",
+        "dev": "webpack-dev-server --config builder/webpack.config.dev.js",
         "start": "npm run dev"
     },
     "repository": {

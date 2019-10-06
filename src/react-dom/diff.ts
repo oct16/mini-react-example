@@ -1,11 +1,12 @@
-import { ElNode, VNode } from '@/lib/model'
+import { ElNode, InstanceElement, VNode } from '@/lib/model'
 import { setAttribute } from '@/react-dom/dom'
 import Component from '@/react/component'
+
 function diffNode(vNode: VNode, node: ElNode) {
     if (typeof vNode === 'string' || typeof vNode === 'number') {
         return diffText(vNode, node)
     } else if (typeof vNode.tagName === 'function') {
-        return diffComponent(vNode, node)
+        return diffComponent(vNode, node as InstanceElement)
     }
 
     let output: Element
@@ -25,92 +26,88 @@ function diffNode(vNode: VNode, node: ElNode) {
 }
 
 function diffChildren(vNode: VNode, node: Element): void {
-    const nodeChildren = node ? Array.from(node.childNodes) : []
-    const vNodeChildren = vNode.children
-    const children: Node[] = []
+    const nodeChildren = node ? (Array.from(node.childNodes).slice() as Element[]) : []
+    const vNodeChildren = vNode.children.slice()
+    vNodeChildren.forEach(vChild => {
+        let child: Element | null = null
+        for (let j = 0; j < nodeChildren.length; j++) {
+            const nc = nodeChildren[j]
+            if (isSameNodeType(vChild, nc as Element)) {
+                child = nodeChildren[j]
+                nodeChildren.splice(j, 1)
+                break
+            }
+        }
 
-    const keys = new Map()
+        const lastNode = child
+        child = diffNode(vChild, child)
+        updateDom(node, lastNode, child)
+    })
 
     if (nodeChildren.length) {
-        for (const child of nodeChildren) {
-            let key: string | null = null
-            if (child.nodeType === Node.ELEMENT_NODE) {
-                key = (child as HTMLElement).getAttribute('key')
-            }
-
-            if (key) {
-                // 如果有相同的key，缓存起来
-                keys.set(key, child)
-            } else {
-                // 否则就推到数组中，表示为有差异的节点，之后需要进行比较
-                children.push(child)
-            }
-        }
-    }
-
-    if (vNodeChildren.length) {
-        for (let i = 0; i < vNodeChildren.length; i++) {
-            const vChild = vNodeChildren[i]
-
-            const key = vChild.key
-            // 去找节点的缓存，如果key一致表示节点没有发生改变
-
-            let child
-            // 如果没有，则需要去和每一个node节点进行对比
-            if (key) {
-                const childCache = keys.get(key.toString())
-                if (childCache) {
-                    child = childCache
-                    keys.delete(key)
-                }
-            } else {
-                // 遍历children，和虚拟节点进行对比
-                for (let j = i; j < nodeChildren.length; j++) {
-                    const nc = nodeChildren[j]
-
-                    if (nc && isSameNodeType(vChild, nc as Element)) {
-                        child = nodeChildren[j]
-                        break
-                    }
-                }
-            }
-
-            child = diffNode(vChild, child)
-            const nodeChild = nodeChildren[i]
-            updateDom(node, nodeChild, child)
-        }
+        const child = findAllChild(nodeChildren)
+        child.forEach(c => unmountComponent((c as InstanceElement).instance as Component))
+        nodeChildren.forEach(n => {
+            removeNode(n)
+        })
     }
 }
 
-function updateDom(node: Element, nodeChild: Node, child: Node) {
+function findAllChild(children: Element[]): Element[] {
+    let result: Element[] = []
+    children.forEach(c => {
+        result.push(c)
+        if (c.childNodes.length) {
+            result = result.concat(findAllChild(c.childNodes as any))
+        }
+    })
+    return result
+}
+
+/**
+ *
+ * The operate for update document after diff was completed
+ * @param {Element} node parent node
+ * @param {Element} nodeChild old node
+ * @param {Element} child new node
+ */
+function updateDom(node: Element, nodeChild: Element | null, child: Element): void {
     if (child && child !== node && child !== nodeChild) {
         if (!nodeChild) {
             node.appendChild(child)
-        } else if (child === nodeChild.nextSibling) {
+            return
+        }
+
+        if (child === nodeChild.nextSibling) {
             removeNode(nodeChild as Element)
+            return
+        }
+
+        node.insertBefore(child, nodeChild)
+    }
+}
+
+export function removeNode(node: ElNode, replaceNode?: Element): void {
+    if (node && node.parentNode) {
+        if (replaceNode) {
+            node.parentNode.replaceChild(replaceNode, node)
         } else {
-            node.insertBefore(child, nodeChild)
+            node.parentNode.removeChild(node)
         }
     }
 }
 
-function removeNode(node: ElNode) {
-    if (node && node.parentNode) {
-        node.parentNode.removeChild(node)
-    }
-}
-
-function diffAttributes(vNode: VNode, node: Element) {
-    const oldAttrs = new Map() // 当前DOM的属性
-    const attrs = vNode.attributes // 虚拟DOM的属性
+function diffAttributes(vNode: VNode, node: Element): void {
+    const cachedAttrs = new Map()
+    const attrs = vNode.attributes
 
     for (const attr of node.attributes) {
-        oldAttrs.set(attr.name, attr.value)
+        cachedAttrs.set(attr.name, attr.value)
     }
 
     if (attrs) {
         for (const [key, val] of Object.entries(attrs)) {
-            const oldVal = oldAttrs.get(key)
+            const oldVal = cachedAttrs.get(key)
             if (oldVal !== val) {
                 setAttribute(node as HTMLElement, key, val)
             }
@@ -128,6 +125,7 @@ function createNode(vNode: VNode, node: ElNode): Element {
     }
     return output
 }
+
 function isSameNodeType(vNode: VNode, node: ElNode): boolean {
     if (!node) {
         return false
@@ -142,14 +140,31 @@ function isSameNodeType(vNode: VNode, node: ElNode): boolean {
         return node.nodeName.toLowerCase() === vNode.tagName.toLowerCase() && node.nodeType === Node.ELEMENT_NODE
     }
 
-    return false
     // component type
-    // return node && node._component && node._component.constructor === vNode.tagName;
+    return node && (node as any).instance && (node as any).instance.constructor === vNode.tagName
 }
-function diffComponent(vNode: VNode, node: ElNode) {
-    const instance = createComponent(vNode)
-    renderComponent(instance)
-    return instance.node
+
+function diffComponent(vNode: VNode, node: InstanceElement): Element {
+    const instanceCache = node && (node as InstanceElement).instance
+
+    // If the component constructor has not changed than is the same component
+    // Reset the props and to render component
+    if (instanceCache && instanceCache.constructor === (vNode.tagName as any)) {
+        instanceCache.setState(vNode.attributes)
+        return node as Element
+    } else {
+        if (instanceCache) {
+            if (instanceCache.componentWillUnmount) {
+                instanceCache.componentWillUnmount()
+            }
+            removeNode(node)
+            node.instance = null
+            instanceCache.node = null
+        }
+        // replace by new node
+        const instance = createComponent(vNode)
+        return renderComponent(instance)
+    }
 }
 
 function createComponent(vNode: VNode) {
@@ -159,13 +174,40 @@ function createComponent(vNode: VNode) {
     return new componentConstructor(props)
 }
 
-export function renderComponent(instance: Component) {
-    const vNode = instance.render()
+export function renderComponent(instance: Component): Element {
+    const { componentWillUpdate, componentDidUpdate, componentDidMount, componentWillMount, render } = instance
 
-    let node: ({ instance?: Component } & Element) | null = instance.node
-    node = diffNode(vNode, node)
+    if (!instance.node && componentWillMount) {
+        componentWillMount.call(instance)
+    }
+    const vNode = render.call(instance)
+
+    if (instance.node && componentWillUpdate) {
+        if (componentWillUpdate) {
+            componentWillUpdate.call(instance)
+        }
+    }
+
+    let node: InstanceElement
+    node = diffNode(vNode, instance.node) as InstanceElement
+
+    if (instance.node) {
+        if (componentDidUpdate) {
+            componentDidUpdate.call(instance)
+        }
+    }
+
+    if (!instance.node && componentDidMount) {
+        node.instance = instance
+        instance.node = node
+
+        componentDidMount.call(instance)
+    }
+
+    node.instance = instance
     instance.node = node
-    // ;(node as ({ instance: Component } & Element)).instance = instance
+
+    return node
 }
 
 function diffText(textNode: string, node: ElNode | null): Element {
@@ -188,7 +230,15 @@ function diffText(textNode: string, node: ElNode | null): Element {
     return output
 }
 
-export default function diff(vNode: VNode, node: ElNode, container?: Element) {
+function unmountComponent(instance: Component): void {
+    if (instance) {
+        if (instance.componentWillUnmount) {
+            instance.componentWillUnmount()
+        }
+    }
+}
+
+export default function diff(vNode: VNode, node: ElNode, container?: Element): Element {
     const output = diffNode(vNode, node)
     if (container) {
         container.appendChild(output)

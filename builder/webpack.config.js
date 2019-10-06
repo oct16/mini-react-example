@@ -50,7 +50,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src//index.html',
-            filename: 'index.html'
+            filename: 'index.html',
+            title: 'Mini React Example By © 2019 OCT16'
         })
     ],
     resolve: {
