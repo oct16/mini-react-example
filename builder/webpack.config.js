@@ -31,6 +31,12 @@ module.exports = {
                 use: ['pug-loader']
             },
             {
+                test: /\.(html)$/,
+                use: {
+                    loader: 'html-loader'
+                }
+            },
+            {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader'
             },
@@ -49,15 +55,14 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src//index.html',
-            filename: 'index.html',
-            title: 'Mini React Example By © 2019 OCT16'
+            template: './src/index.html',
+            filename: 'index.html'
         })
     ],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, '../src/')
         },
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js', '*']
     }
 }

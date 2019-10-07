@@ -1,0 +1,68 @@
+@import './variables.styl';
+
+.dialog {
+    .dialog-content {
+        padding: 20px;
+        width: 570px;
+        height: 100px;
+        background: white;
+        position: absolute;
+        border: 2px solid $color-blue;
+        box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .triangle {
+        position: absolute;
+        left: 20px;
+        top: -22px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 20px 10px;
+        border-color: transparent transparent $color-blue transparent;
+
+        &.inner {
+            top: -18px;
+            border-color: transparent transparent white transparent;
+        }
+    }
+
+    .dialog-input {
+        margin-top: 10px;
+        width: 300px;
+        line-height: 24px;
+        border: 1px solid rgb(216, 216, 216);
+        color: $color-blue;
+        text-indent: 10px;
+    }
+
+    .dialog-title {
+    }
+
+    .dialog-close {
+        font-size: 20px;
+        margin-right: -10px;
+        margin-top: -10px;
+        float: right;
+        color: $color-blue;
+        cursor: pointer;
+    }
+
+    .dialog-action {
+        button {
+            height: 30px;
+            color: white;
+            margin-top: 20px;
+            margin-right: 10px;
+            width: 100px;
+        }
+
+        .dialog-confirm {
+            background: $color-blue;
+        }
+
+        .dialog-cancel {
+            background: $color-mazarine;
+        }
+    }
+}
