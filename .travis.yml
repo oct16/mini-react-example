@@ -3,7 +3,7 @@ node_js:
     - "12"
 branches:
     only:
-        - tw
+        - master
 
 install:
     - npm install
@@ -14,10 +14,11 @@ script:
 deploy:
     provider: pages
     repo: oct16/oct16.github.io
+    target_branch: mini-react-example
     skip_cleanup: true
     keep_history: true
     allow_empty_commit: true
     local_dir: dist
     github_token: $GITHUB_TOKEN
     on:
-        branch: tw
+        branch: master
