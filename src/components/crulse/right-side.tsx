@@ -254,9 +254,10 @@ export default class RightSide extends MiniReact.Component {
                     </li>
                 </ul>
                 <ul className="agent-list">
-                    {this.state.agentList.filter(agent => agent.title.indexOf(this.state.searchFilter) !== -1).map((item: any) => (
-                        <li>
-                            <div className="agent-list-item" building={item.status === 'building'}>
+                    {this.state.agentList
+                        .filter(agent => agent.title.indexOf(this.state.searchFilter) !== -1)
+                        .map((item: any) => (
+                            <li className="agent-list-item" building={item.status === 'building'}>
                                 <div className="logo">
                                     <img src={require('@/' + item.icon)} />
                                 </div>
@@ -313,9 +314,8 @@ export default class RightSide extends MiniReact.Component {
                                         )}
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                    ))}
+                            </li>
+                        ))}
                 </ul>
             </aside>
         )

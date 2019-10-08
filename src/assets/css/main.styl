@@ -23,9 +23,8 @@
     grid-template-areas: 'leftside' 'right-side';
     grid-template-columns: 250px 1fr;
     grid-template-rows: 1fr;
-    max-width: $responsive-desktop-hd;
+    // max-width: $responsive-desktop-hd;
     min-height: calc(100vh - 60px - 24px);
-    margin: 0 auto;
 }
 
 .cruise-left {
@@ -119,123 +118,121 @@
 
         .agent-list {
             margin: 10px 20px;
+            display: grid;
 
-            >li {
+            .agent-list-item {
                 background: white;
                 margin: 10px 0;
+                grid-template-columns: 100px auto;
+                grid-template-rows: 1fr;
+                display: grid;
 
-                .agent-list-item {
-                    grid-template-columns: 100px auto;
-                    grid-template-rows: 1fr;
-                    display: grid;
+                img {
+                    margin-top: 10px;
+                    margin-left: 10px;
+                    height: 80px;
+                }
 
-                    img {
+                .logo {
+                }
+
+                .detail {
+                    height: 100%;
+                    padding: 10px;
+                    box-sizing: border-box;
+
+                    .detail-header {
                         margin-top: 10px;
-                        margin-left: 10px;
-                        height: 80px;
-                    }
+                        display: grid;
+                        grid-template-columns: 1fr 1fr 1fr 1fr;
 
-                    .logo {
-                    }
+                        li {
+                        }
 
-                    .detail {
-                        height: 100%;
-                        padding: 10px;
-                        box-sizing: border-box;
+                        .agent-status {
+                            display: inline-block;
+                            padding: 0 5px;
+                            line-height: 16px;
+                            margin-top: 4px;
+                            margin-left: 20px;
+                            color: white;
+                            background: $color-green;
 
-                        .detail-header {
-                            margin-top: 10px;
-                            display: grid;
-                            grid-template-columns: 1fr 1fr 1fr 1fr;
-
-                            li {
-                            }
-
-                            .agent-status {
-                                display: inline-block;
-                                padding: 0 5px;
-                                line-height: 16px;
-                                margin-top: 4px;
-                                margin-left: 20px;
-                                color: white;
-                                background: $color-green;
-
-                                &.status-building {
-                                    background: $color-orange;
-                                }
-                            }
-
-                            i {
-                                color: $color-mazarine-dark;
-                                vertical-align: baseline;
-                                font-size: 16px;
-                                line-height: 20px;
-                                margin-right: 5px;
-                            }
-
-                            .detail-title {
-                                vertical-align: baseline;
-                                line-height: 16px;
-                                color: $color-blue;
+                            &.status-building {
+                                background: $color-orange;
                             }
                         }
 
-                        .detail-bottom {
-                            margin-top: 25px;
+                        i {
+                            color: $color-mazarine-dark;
+                            vertical-align: baseline;
+                            font-size: 16px;
+                            line-height: 20px;
+                            margin-right: 5px;
+                        }
 
-                            .tags {
-                                vertical-align: middle;
-                                display: inline-block;
+                        .detail-title {
+                            vertical-align: baseline;
+                            line-height: 16px;
+                            color: $color-blue;
+                        }
+                    }
 
-                                >li {
-                                    float: left;
-                                    margin-left: 10px;
-                                    padding: 1px 8px;
-                                    background: #EFEFEF;
-                                    font-size: 16px;
+                    .detail-bottom {
+                        margin-top: 25px;
 
-                                    i {
-                                        margin-left: 2px;
-                                        font-size: 14px;
-                                        margin-left: 2px;
-                                        cursor: pointer;
-                                        line-height: 18px;
-                                        vertical-align: bottom;
-                                    }
-                                }
-                            }
+                        .tags {
+                            vertical-align: middle;
+                            display: inline-block;
 
-                            button {
-                                padding: 0;
-                                background: $color-blue;
-                                color: white;
-                                height: 20px;
-                                light-height: 22px;
-                                border: none;
-                                vertical-align: middle;
-                            }
-
-                            i {
-                                vertical-align: middle;
-
-                                &.icon-deny {
-                                    margin-right: 5px;
-                                }
-                            }
-
-                            .deny-button {
-                                float: right;
-                                width: 60px;
-                            }
-
-                            .add-button {
-                                width: 20px;
-                                cursor: pointer;
+                            >li {
+                                float: left;
+                                margin-left: 10px;
+                                padding: 1px 8px;
+                                background: #EFEFEF;
+                                font-size: 16px;
 
                                 i {
-                                    font-size: 16px;
-                                    font-weight: 100;
+                                    margin-left: 2px;
+                                    font-size: 14px;
+                                    margin-left: 2px;
+                                    cursor: pointer;
+                                    line-height: 18px;
+                                    vertical-align: bottom;
                                 }
+                            }
+                        }
+
+                        button {
+                            padding: 0;
+                            background: $color-blue;
+                            color: white;
+                            height: 20px;
+                            light-height: 22px;
+                            border: none;
+                            vertical-align: middle;
+                        }
+
+                        i {
+                            vertical-align: middle;
+
+                            &.icon-deny {
+                                margin-right: 5px;
+                            }
+                        }
+
+                        .deny-button {
+                            float: right;
+                            width: 60px;
+                        }
+
+                        .add-button {
+                            width: 20px;
+                            cursor: pointer;
+
+                            i {
+                                font-size: 16px;
+                                font-weight: 100;
                             }
                         }
                     }
@@ -503,48 +500,46 @@
             .agent-list {
                 margin: 10px;
 
-                >li {
-                    .agent-list-item {
-                        height: auto;
-                        grid-template-columns: 1fr;
-                        grid-template-rows: 1fr;
-                        display: grid;
-                        position: relative;
+                .agent-list-item {
+                    height: auto;
+                    grid-template-columns: 1fr;
+                    grid-template-rows: 1fr;
+                    display: grid;
+                    position: relative;
 
+                    &:before {
+                        content: '';
+                        width: 4px;
+                        background: $color-green;
+                        height: 100%;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                    }
+
+                    &[building] {
                         &:before {
-                            content: '';
-                            width: 4px;
-                            background: $color-green;
-                            height: 100%;
-                            position: absolute;
-                            left: 0;
-                            top: 0;
+                            background: $color-orange;
                         }
+                    }
 
-                        &[building] {
-                            &:before {
-                                background: $color-orange;
+                    .detail {
+                        .detail-header {
+                            margin-top: 0;
+                            grid-template-columns: 1fr;
+
+                            li:nth-child(2) {
+                                display: none;
                             }
                         }
 
-                        .detail {
-                            .detail-header {
-                                margin-top: 0;
-                                grid-template-columns: 1fr;
-
-                                li:nth-child(2) {
-                                    display: none;
-                                }
-                            }
-
-                            .detail-bottom {
-                                margin-top: 0;
-                            }
+                        .detail-bottom {
+                            margin-top: 0;
                         }
+                    }
 
-                        .logo {
-                            display: none;
-                        }
+                    .logo {
+                        display: none;
                     }
                 }
             }
