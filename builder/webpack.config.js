@@ -1,12 +1,11 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const DIST_FILE_PATH = path.resolve(__dirname, '../dist/')
 
 module.exports = {
     entry: path.resolve(__dirname, '../src/index.tsx'),
     output: {
         filename: '[name].[hash].js',
-        path: DIST_FILE_PATH
+        path: path.resolve(__dirname, '../dist/mini-react')
     },
     devtool: 'source-map',
     module: {
