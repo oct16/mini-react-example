@@ -1,4 +1,4 @@
-## A Mini React Demo
+## A Mini React Demo ![travis-ci](https://travis-ci.org/oct16/mini-react-example.svg?branch=tw)
 
 #### Todo
 
