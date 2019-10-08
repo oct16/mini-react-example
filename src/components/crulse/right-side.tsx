@@ -146,7 +146,8 @@ export default class RightSide extends MiniReact.Component {
                     }
                 ]
             }
-        ]
+        ],
+        searchFilter: ''
     }
     public dialog: AddAgentDialog | null = new AddAgentDialog()
 
@@ -184,6 +185,12 @@ export default class RightSide extends MiniReact.Component {
         } else {
             item.status = 'idle'
         }
+        this.setState(this.state)
+    }
+
+    public onInput(event: InputEvent): void {
+        const val = (event.target as HTMLInputElement).value
+        this.state.searchFilter = val
         this.setState(this.state)
     }
 
@@ -238,7 +245,7 @@ export default class RightSide extends MiniReact.Component {
                             <label for="search-input">
                                 <i className="icon-search"></i>
                             </label>
-                            <input id="search-input" />
+                            <input id="search-input" onInput={(e: InputEvent) => this.onInput(e)} />
                         </div>
                     </li>
                     <li className="tab-th">
@@ -247,7 +254,7 @@ export default class RightSide extends MiniReact.Component {
                     </li>
                 </ul>
                 <ul className="agent-list">
-                    {this.state.agentList.map(item => (
+                    {this.state.agentList.filter(agent => agent.title.indexOf(this.state.searchFilter) !== -1).map((item: any) => (
                         <li>
                             <div className="agent-list-item" building={item.status === 'building'}>
                                 <div className="logo">
