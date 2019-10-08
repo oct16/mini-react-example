@@ -2,14 +2,16 @@
 
 #### Todo
 
+- [x] **ENV**
 - [x] **TSX**
-- [x] **Diff Engine**
+- [x] **Diff Engine** [Reconciliation](https://reactjs.org/docs/reconciliation.html)
     - [ ] **Key Strategy**
 - [x] **Life Cycle**
 - [x] **Demo**
-- [ ] **Async Queue**
+- [ ] **Async Queue** [Why is setState asynchronous?](https://github.com/facebook/react/issues/11527)
 - [ ] **Refs**
 - [ ] **Props**
+- [ ] **HOC**
 - [ ] **...**
 
 
