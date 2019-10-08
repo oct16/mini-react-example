@@ -48,7 +48,7 @@
         "type": "git",
         "url": "git+https://github.com/oct16/simple-react-diff-example.git"
     },
-    "license": "ISC",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/oct16/simple-react-diff-example/issues"
     },

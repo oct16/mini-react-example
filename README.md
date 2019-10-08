@@ -1,5 +1,4 @@
-## A Mini React Demo ![travis-ci](https://travis-ci.org/oct16/mini-react-example.svg?branch=tw)
-
+## A Mini React Demo ![travis-ci](https://travis-ci.org/oct16/mini-react-example.svg?branch=tw) ![GitHub last commit](https://img.shields.io/github/last-commit/oct16/mini-react-example) ![GitHub](https://img.shields.io/github/license/oct16/mini-react-example) ![GitHub watchers](https://img.shields.io/github/watchers/oct16/mini-react-example?label=Watch)
 #### Todo
 
 - [x] **ENV**

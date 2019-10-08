@@ -8,7 +8,7 @@ const productionConfig = {
     plugins: [
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin([
-            {
+        {
                 from: 'src/assets',
                 to: 'assets/'
             }
