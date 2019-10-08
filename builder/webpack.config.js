@@ -5,7 +5,7 @@ const DIST_FILE_PATH = path.resolve(__dirname, '../dist/')
 module.exports = {
     entry: path.resolve(__dirname, '../src/index.tsx'),
     output: {
-        filename: '[name].bundle.js',
+        filename: '[name].[hash].js',
         path: DIST_FILE_PATH
     },
     devtool: 'source-map',
