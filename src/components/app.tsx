@@ -7,9 +7,6 @@ import RightSide from './crulse/right-side'
 export default class App extends MiniReact.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            num: 0
-        }
     }
 
     public render() {
