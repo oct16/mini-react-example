@@ -1,23 +1,19 @@
 import { ElNode, VNode } from '@/lib/model'
-import { removeNode, renderComponent } from '@/react-dom/diff'
-abstract class Component {
+import { renderComponent } from '@/react-dom/diff'
+import LifeCycle from './life-cycle'
+import { replaceNode } from '@/react-dom/dom'
+abstract class Component extends LifeCycle {
     public node: ElNode
     public state: { [key: string]: any }
     public props: { [key: string]: any }
 
     constructor(props = {}) {
+        super()
         this.state = {}
         this.props = props
     }
 
     public abstract render(): VNode
-
-    public componentWillMount?(): void
-    public componentWillUpdate?(): void
-    public componentDidMount?(): void
-    public componentWillReceiveProps?(state: { [key: string]: any }): void
-    public componentDidUpdate?(): void
-    public componentWillUnmount?(): void
 
     public setState(newState: { [key: string]: any }) {
         this.state = Object.assign(this.state, newState)
@@ -30,7 +26,7 @@ abstract class Component {
     }
 
     protected destroy(): void {
-        removeNode(this.node)
+        replaceNode(this.node)
     }
 }
 

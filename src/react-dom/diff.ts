@@ -1,7 +1,14 @@
 import { ElNode, InstanceElement, VNode } from '@/lib/model'
-import { setAttribute } from '@/react-dom/dom'
+import { replaceNode, setAttribute } from '@/react-dom/dom'
 import Component from '@/react/component'
 
+/**
+ *
+ * Diff self and all children
+ * @param {VNode} vNode
+ * @param {ElNode} node
+ * @returns
+ */
 function diffNode(vNode: VNode, node: ElNode) {
     if (typeof vNode === 'string' || typeof vNode === 'number') {
         return diffText(vNode, node)
@@ -9,12 +16,7 @@ function diffNode(vNode: VNode, node: ElNode) {
         return diffComponent(vNode, node as InstanceElement)
     }
 
-    let output: Element
-    if (!node || !isSameNodeType(vNode, node)) {
-        output = createNode(vNode, node)
-    } else {
-        output = node as Element
-    }
+    const output = !node || !isSameNodeType(vNode, node) ? createNode(vNode, node) : (node as Element)
 
     if ((vNode.children && vNode.children.length) || (output.children && output.children.length)) {
         diffChildren(vNode, output)
@@ -25,20 +27,26 @@ function diffNode(vNode: VNode, node: ElNode) {
     return output
 }
 
+/**
+ *
+ * Diff all child nodes by recursive
+ * Update dom in the final
+ * @param {VNode} vNode
+ * @param {Element} node
+ */
 function diffChildren(vNode: VNode, node: Element): void {
     const nodeChildren = node ? (Array.from(node.childNodes).slice() as Element[]) : []
     const vNodeChildren = vNode.children.slice()
     vNodeChildren.forEach(vChild => {
         let child: Element | null = null
         for (let j = 0; j < nodeChildren.length; j++) {
-            const nc = nodeChildren[j]
-            if (isSameNodeType(vChild, nc as Element)) {
+            const subNode = nodeChildren[j]
+            if (isSameNodeType(vChild, subNode as Element)) {
                 child = nodeChildren[j]
                 nodeChildren.splice(j, 1)
                 break
             }
         }
-
         const lastNode = child
         child = diffNode(vChild, child)
         updateDom(node, lastNode, child)
@@ -48,11 +56,17 @@ function diffChildren(vNode: VNode, node: Element): void {
         const child = findAllChild(nodeChildren)
         child.forEach(c => unmountComponent((c as InstanceElement).instance as Component))
         nodeChildren.forEach(n => {
-            removeNode(n)
+            replaceNode(n)
         })
     }
 }
 
+/**
+ *
+ * Find all child nodes by recursive
+ * @param {Element[]} children
+ * @returns {Element[]}
+ */
 function findAllChild(children: Element[]): Element[] {
     let result: Element[] = []
     children.forEach(c => {
@@ -65,7 +79,6 @@ function findAllChild(children: Element[]): Element[] {
 }
 
 /**
- *
  * The operate for update document after diff was completed
  * @param {Element} node parent node
  * @param {Element} nodeChild old node
@@ -79,7 +92,7 @@ function updateDom(node: Element, nodeChild: Element | null, child: Element): vo
         }
 
         if (child === nodeChild.nextSibling) {
-            removeNode(nodeChild as Element)
+            replaceNode(nodeChild as Element)
             return
         }
 
@@ -87,16 +100,13 @@ function updateDom(node: Element, nodeChild: Element | null, child: Element): vo
     }
 }
 
-export function removeNode(node: ElNode, replaceNode?: Element): void {
-    if (node && node.parentNode) {
-        if (replaceNode) {
-            node.parentNode.replaceChild(replaceNode, node)
-        } else {
-            node.parentNode.removeChild(node)
-        }
-    }
-}
-
+/**
+ *
+ * Diff attrs value
+ * update dom by new value
+ * @param {VNode} vNode
+ * @param {Element} node
+ */
 function diffAttributes(vNode: VNode, node: Element): void {
     const cachedAttrs = new Map()
     const attrs = vNode.attributes
@@ -118,18 +128,26 @@ function diffAttributes(vNode: VNode, node: Element): void {
 function createNode(vNode: VNode, node: ElNode): Element {
     const output = document.createElement(vNode.tagName as string)
     if (node) {
-        Array.from(node.childNodes).map(n => output.appendChild(n))
-        if (node.parentNode) {
-            node.parentNode.replaceChild(output, node)
-        }
+        Array.from(node.childNodes).map(output.appendChild)
+        replaceNode(node, output)
     }
+
     return output
 }
 
+/**
+ *
+ * Compare virtual node and real node whether the same type or not
+ *
+ * @param {VNode} vNode
+ * @param {ElNode} node
+ * @returns {boolean}
+ */
 function isSameNodeType(vNode: VNode, node: ElNode): boolean {
     if (!node) {
         return false
     }
+
     // still plain text node
     if (typeof vNode === 'string' || typeof vNode === 'number') {
         return node.nodeType === Node.TEXT_NODE
@@ -144,6 +162,13 @@ function isSameNodeType(vNode: VNode, node: ElNode): boolean {
     return node && (node as any).instance && (node as any).instance.constructor === vNode.tagName
 }
 
+/**
+ *
+ * Diff Component type node
+ * @param {VNode} vNode
+ * @param {InstanceElement} node
+ * @returns {Element}
+ */
 function diffComponent(vNode: VNode, node: InstanceElement): Element {
     const instanceCache = node && (node as InstanceElement).instance
 
@@ -157,7 +182,7 @@ function diffComponent(vNode: VNode, node: InstanceElement): Element {
             if (instanceCache.componentWillUnmount) {
                 instanceCache.componentWillUnmount()
             }
-            removeNode(node)
+            replaceNode(node)
             node.instance = null
             instanceCache.node = null
         }
@@ -167,6 +192,12 @@ function diffComponent(vNode: VNode, node: InstanceElement): Element {
     }
 }
 
+/**
+ *
+ * Create a Component Type node if the tagName's type equal function
+ * @param {VNode} vNode
+ * @returns
+ */
 function createComponent(vNode: VNode) {
     const attrs = vNode.attributes
     const props = attrs
@@ -174,6 +205,14 @@ function createComponent(vNode: VNode) {
     return new componentConstructor(props)
 }
 
+/**
+ *
+ * Get vNode tree by Component.render method
+ * transform it to really node and mount instance to the node
+ * @export
+ * @param {Component} instance
+ * @returns {Element}
+ */
 export function renderComponent(instance: Component): Element {
     const { componentWillUpdate, componentDidUpdate, componentDidMount, componentWillMount, render } = instance
 
@@ -210,8 +249,15 @@ export function renderComponent(instance: Component): Element {
     return node
 }
 
+/**
+ *
+ * NodeType: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
+ *
+ * @param {string} textNode
+ * @param {(ElNode | null)} node
+ * @returns {Element}
+ */
 function diffText(textNode: string, node: ElNode | null): Element {
-    // NodeType: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
     let output: any
     // node is plain text
     if (node && node.nodeType === Node.TEXT_NODE) {
@@ -223,9 +269,7 @@ function diffText(textNode: string, node: ElNode | null): Element {
     } else {
         // hard replace node
         output = document.createTextNode(textNode)
-        if (node && node.parentNode) {
-            node.parentNode.replaceChild(output, node)
-        }
+        replaceNode(node, output)
     }
     return output
 }
@@ -238,6 +282,15 @@ function unmountComponent(instance: Component): void {
     }
 }
 
+/**
+ *
+ * For bootstrap step
+ * @export
+ * @param {VNode} vNode
+ * @param {ElNode} node
+ * @param {Element} [container]
+ * @returns {Element}
+ */
 export default function diff(vNode: VNode, node: ElNode, container?: Element): Element {
     const output = diffNode(vNode, node)
     if (container) {

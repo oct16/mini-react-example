@@ -1,7 +1,7 @@
 import { VNode } from '@/lib/model'
+import { replaceNode } from '@/react-dom/dom'
 import render from '@/react-dom/render'
 import MiniReact from '@/react/index'
-import { removeNode } from '../../react-dom/diff'
 
 interface Position {
     x: number
@@ -26,7 +26,7 @@ export abstract class Dialog extends MiniReact.Component {
 
     public close(): void {
         if (this.contextNode) {
-            removeNode(this.contextNode)
+            replaceNode(this.contextNode)
             this.contextNode = null
         }
     }
