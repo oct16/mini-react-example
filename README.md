@@ -7,6 +7,7 @@
     - [ ] **Key Strategy**
 - [x] **Life Cycle**
 - [x] **Demo**
+- [ ] **Router**
 - [ ] **Async Queue** [Why is setState asynchronous?](https://github.com/facebook/react/issues/11527)
 - [ ] **Refs**
 - [ ] **Props**

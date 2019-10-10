@@ -1,7 +1,7 @@
 import { ElNode, VNode } from '@/lib/model'
 import { renderComponent } from '@/react-dom/diff'
-import LifeCycle from './life-cycle'
 import { replaceNode } from '@/react-dom/dom'
+import LifeCycle from './life-cycle'
 abstract class Component extends LifeCycle {
     public node: ElNode
     public state: { [key: string]: any }
