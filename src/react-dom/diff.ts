@@ -5,9 +5,7 @@ import Component from '@/react/component'
 /**
  *
  * Diff self and all children
- * @param {VNode} vNode
- * @param {ElNode} node
- * @returns
+ *
  */
 function diffNode(vNode: VNode, node: ElNode) {
     if (typeof vNode === 'string' || typeof vNode === 'number') {
@@ -31,8 +29,7 @@ function diffNode(vNode: VNode, node: ElNode) {
  *
  * Diff all child nodes by recursive
  * Update dom in the final
- * @param {VNode} vNode
- * @param {Element} node
+ *
  */
 function diffChildren(vNode: VNode, node: Element): void {
     const nodeChildren = node ? (Array.from(node.childNodes).slice() as Element[]) : []
@@ -64,8 +61,7 @@ function diffChildren(vNode: VNode, node: Element): void {
 /**
  *
  * Find all child nodes by recursive
- * @param {Element[]} children
- * @returns {Element[]}
+ *
  */
 function findAllChild(children: Element[]): Element[] {
     let result: Element[] = []
@@ -79,24 +75,23 @@ function findAllChild(children: Element[]): Element[] {
 }
 
 /**
- * The operate for update document after diff was completed
- * @param {Element} node parent node
- * @param {Element} nodeChild old node
- * @param {Element} child new node
+ *
+ * The func for update document after diff was completed
+ *
  */
-function updateDom(node: Element, nodeChild: Element | null, child: Element): void {
-    if (child && child !== node && child !== nodeChild) {
-        if (!nodeChild) {
-            node.appendChild(child)
+function updateDom(node: Element, oldChild: Element | null, newChild: Element): void {
+    if (newChild && newChild !== node && newChild !== oldChild) {
+        if (!oldChild) {
+            node.appendChild(newChild)
             return
         }
 
-        if (child === nodeChild.nextSibling) {
-            replaceNode(nodeChild as Element)
+        if (newChild === oldChild.nextSibling) {
+            replaceNode(oldChild as Element)
             return
         }
 
-        node.insertBefore(child, nodeChild)
+        node.insertBefore(newChild, oldChild)
     }
 }
 
@@ -104,8 +99,7 @@ function updateDom(node: Element, nodeChild: Element | null, child: Element): vo
  *
  * Diff attrs value
  * update dom by new value
- * @param {VNode} vNode
- * @param {Element} node
+ *
  */
 function diffAttributes(vNode: VNode, node: Element): void {
     const cachedAttrs = new Map()
@@ -125,6 +119,11 @@ function diffAttributes(vNode: VNode, node: Element): void {
     }
 }
 
+/**
+ *
+ * create a node by vNode and copy children
+ *
+ */
 function createNode(vNode: VNode, node: ElNode): Element {
     const output = document.createElement(vNode.tagName as string)
     if (node) {
@@ -139,9 +138,6 @@ function createNode(vNode: VNode, node: ElNode): Element {
  *
  * Compare virtual node and real node whether the same type or not
  *
- * @param {VNode} vNode
- * @param {ElNode} node
- * @returns {boolean}
  */
 function isSameNodeType(vNode: VNode, node: ElNode): boolean {
     if (!node) {
@@ -165,9 +161,7 @@ function isSameNodeType(vNode: VNode, node: ElNode): boolean {
 /**
  *
  * Diff Component type node
- * @param {VNode} vNode
- * @param {InstanceElement} node
- * @returns {Element}
+ *
  */
 function diffComponent(vNode: VNode, node: InstanceElement): Element {
     const instanceCache = node && (node as InstanceElement).instance
@@ -209,9 +203,7 @@ function createComponent(vNode: VNode) {
  *
  * Get vNode tree by Component.render method
  * transform it to really node and mount instance to the node
- * @export
- * @param {Component} instance
- * @returns {Element}
+ *
  */
 export function renderComponent(instance: Component): Element {
     const { componentWillUpdate, componentDidUpdate, componentDidMount, componentWillMount, render } = instance
@@ -253,9 +245,6 @@ export function renderComponent(instance: Component): Element {
  *
  * NodeType: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
  *
- * @param {string} textNode
- * @param {(ElNode | null)} node
- * @returns {Element}
  */
 function diffText(textNode: string, node: ElNode | null): Element {
     let output: any
@@ -285,11 +274,7 @@ function unmountComponent(instance: Component): void {
 /**
  *
  * For bootstrap step
- * @export
- * @param {VNode} vNode
- * @param {ElNode} node
- * @param {Element} [container]
- * @returns {Element}
+ *
  */
 export default function diff(vNode: VNode, node: ElNode, container?: Element): Element {
     const output = diffNode(vNode, node)
