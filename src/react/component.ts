@@ -2,20 +2,22 @@ import { ElNode, VNode } from '@/lib/model'
 import { renderComponent } from '@/react-dom/diff'
 import { replaceNode } from '@/react-dom/dom'
 import LifeCycle from './life-cycle'
-abstract class Component extends LifeCycle {
+abstract class Component<P = {}, S = {}> extends LifeCycle {
     public node: ElNode
     public state: { [key: string]: any }
     public props: { [key: string]: any }
 
-    constructor(props = {}) {
+    constructor(props?: Readonly<P>) {
         super()
         this.state = {}
-        this.props = props
+        if (props) {
+            this.props = props
+        }
     }
 
     public abstract render(): VNode
 
-    public setState(newState: { [key: string]: any }) {
+    public setState(newState: Readonly<S>) {
         this.state = Object.assign(this.state, newState)
 
         if (this.componentWillReceiveProps) {
