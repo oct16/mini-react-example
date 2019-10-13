@@ -6,13 +6,16 @@
 - [x] **Diff Engine** [Reconciliation](https://reactjs.org/docs/reconciliation.html)
     - [ ] **Key Strategy**
 - [x] **Life Cycle**
+- [x] **Props**
 - [x] **Demo**
-- [ ] **Router**
 - [ ] **Async Queue** [Why is setState asynchronous?](https://github.com/facebook/react/issues/11527)
+- [ ] **Router**
+- [ ] **Redux**
 - [ ] **Refs**
-- [ ] **Props**
 - [ ] **HOC**
 - [ ] **...**
 
 
+---
+Demo: [https://oct16.github.io/mini-react/](https://oct16.github.io/mini-react/)
 ![screenshot](2019-10-08-11-52-25.png)
