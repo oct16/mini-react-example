@@ -3,12 +3,12 @@ import MiniReact from '@/react/index'
 import { matchPath, register, unRegister, updateRoutes } from '../router'
 
 export class Route extends Component {
-    public componentWillMount() {
+    public componentWillMount(): void {
         addEventListener('popstate', this.handlePop)
         register(this)
     }
 
-    public componentWillUnmount() {
+    public componentWillUnmount(): void {
         removeEventListener('popstate', this.handlePop)
         unRegister(this)
     }

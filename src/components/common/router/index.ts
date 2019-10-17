@@ -2,27 +2,27 @@ import Component from '@/react/component'
 
 export const instances: Component[] = []
 
-export function register(instance) {
+export function register(instance): void {
     instances.push(instance)
 }
 
-export function updateRoutes() {
+export function updateRoutes(): void {
     instances.forEach(instance => instance.forceUpdate())
 }
 
-export function unRegister(instance) {
+export function unRegister(instance): void {
     instances.splice(instances.indexOf(instance), 1)
 }
 
-export const historyPush = (path: string) => {
+export const historyPush = (path: string): void => {
     window.history.pushState({}, '', path)
 }
 
-export const historyReplace = (path: string) => {
+export const historyReplace = (path: string): void => {
     window.history.replaceState({}, '', path)
 }
 
-function purePath(path: string) {
+function purePath(path: string): string {
     if (path.endsWith('/')) {
         return path.substr(0, path.length - 1)
     }

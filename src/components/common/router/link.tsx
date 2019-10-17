@@ -7,11 +7,11 @@ export class Link extends MiniReact.Component {
         register(this)
     }
 
-    public componentWillUnmount() {
+    public componentWillUnmount(): void {
         unRegister(this)
     }
 
-    public handleClick = (event: MouseEvent) => {
+    public handleClick = (event: MouseEvent): void => {
         const { to, replace } = this.props
         event.preventDefault()
         if (to === location.pathname) {

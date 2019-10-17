@@ -12,7 +12,7 @@
 - [x] **Life Cycle**
 - [x] **Props**
 - [x] **Demo**
-- [ ] **Async Queue** [Why is setState asynchronous?](https://github.com/facebook/react/issues/11527)
+- [x] **Async Queue** [Why is setState asynchronous?](https://github.com/facebook/react/issues/11527)
 - [x] **Router & Link** [Build your own React Router v4](https://tylermcginnis.com/build-your-own-react-router-v4/)
 - [ ] **Dynamic Import**
 - [ ] **Redux**

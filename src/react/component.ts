@@ -1,10 +1,15 @@
 import { ElNode, VNode } from '@/lib/model'
-import { diffComponent, diffNode, renderComponent } from '@/react-dom/diff'
+import { diffNode } from '@/react-dom/diff'
 import { replaceNode } from '@/react-dom/dom'
 import LifeCycle from './life-cycle'
+
+import queue from './queue'
 abstract class Component<P = {}, S = {}> extends LifeCycle {
     public node: ElNode
     public state: { [key: string]: any } = {}
+
+    // for async queue
+    public preState: { [key: string]: any } = {}
     public props: { [key: string]: any } = {}
 
     constructor(props?: Readonly<P>) {
@@ -17,13 +22,7 @@ abstract class Component<P = {}, S = {}> extends LifeCycle {
     public abstract render(): VNode
 
     public setState(newState: Readonly<S>) {
-        this.state = Object.assign(this.state, newState)
-
-        if (this.componentWillReceiveProps) {
-            this.componentWillReceiveProps(this.state)
-        }
-
-        renderComponent(this)
+        queue.enqueue(newState, this)
     }
 
     public forceUpdate(): void {
