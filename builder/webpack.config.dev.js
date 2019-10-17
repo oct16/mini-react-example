@@ -12,6 +12,7 @@ const devConfig = {
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {
         open: true,
+        openPage: 'mini-react',
         historyApiFallback: true,
         stats: 'errors-only'
     }
