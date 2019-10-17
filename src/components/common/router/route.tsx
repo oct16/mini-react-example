@@ -1,6 +1,6 @@
 import Component from '@/react/component'
 import MiniReact from '@/react/index'
-import { register, unRegister, updateRoutes, matchPath } from '../router'
+import { matchPath, register, unRegister, updateRoutes } from '../router'
 
 export class Route extends Component {
     public componentWillMount() {
@@ -17,7 +17,7 @@ export class Route extends Component {
 
     public render() {
         const { path, exact, component } = this.props
-        const match = matchPath(path, exact )
+        const match = matchPath(path, exact)
 
         if (!match) {
             return ''
