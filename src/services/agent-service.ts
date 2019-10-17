@@ -127,21 +127,22 @@ const mockAgentList = [
     }
 ]
 const AgentService = {
+    pivot: () => Math.floor(mockAgentList.length / 2),
     getRandomAgentList(query?: string) {
         if (query === 'PHYSICAL') {
-            return mockAgentList.slice(0, Math.floor(mockAgentList.length / 2))
+            return mockAgentList.slice(0, this.pivot())
         } else if (query === 'VIRTUAL') {
-            return mockAgentList.slice(Math.floor(mockAgentList.length / 2), mockAgentList.length)
+            return mockAgentList.slice(this.pivot())
         }
         return mockAgentList
     },
     loadPanelState() {
         return [
             { name: 'ALL', count: mockAgentList.length },
-            { name: 'PHYSICAL', count: mockAgentList.slice(0, Math.floor(mockAgentList.length / 2)).length },
+            { name: 'PHYSICAL', count: mockAgentList.slice(0, this.pivot()).length },
             {
                 name: 'VIRTUAL',
-                count: mockAgentList.slice(Math.floor(mockAgentList.length / 2), mockAgentList.length).length
+                count: mockAgentList.slice(this.pivot()).length
             }
         ]
     }
