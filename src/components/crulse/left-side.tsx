@@ -1,5 +1,6 @@
 import { VNode } from '@/lib/model'
 import MiniReact from '@/react/index'
+import { Link } from '../common/router/link'
 export default class LeftSide extends MiniReact.Component {
     public state = {
         histories: [
@@ -22,23 +23,23 @@ export default class LeftSide extends MiniReact.Component {
         navList: [
             {
                 name: 'DASHBOARD',
-                active: false,
-                icon: 'icon-dashboard'
+                icon: 'icon-dashboard',
+                to: '/dashboard'
             },
             {
                 name: 'AGENT',
-                active: true,
-                icon: 'icon-sitemap'
+                icon: 'icon-sitemap',
+                to: '/'
             },
             {
                 name: 'MY CRUISE',
-                active: false,
-                icon: 'icon-boat'
+                icon: 'icon-boat',
+                to: '/my'
             },
             {
                 name: 'HELP',
-                active: false,
-                icon: 'icon-life-bouy'
+                icon: 'icon-life-bouy',
+                to: '/help'
             }
         ]
     }
@@ -49,10 +50,12 @@ export default class LeftSide extends MiniReact.Component {
                 <ul className="nav">
                     {this.state.navList.map(navItem => (
                         <li>
-                            <div className="nav-item-container" active={navItem.active}>
-                                <i className={navItem.icon}></i>
-                                <span className="title">{navItem.name}</span>
-                            </div>
+                            <Link to={navItem.to}>
+                                <div className="nav-item-container" active>
+                                    <i className={navItem.icon}></i>
+                                    <span className="title">{navItem.name}</span>
+                                </div>
+                            </Link>
                         </li>
                     ))}
                 </ul>

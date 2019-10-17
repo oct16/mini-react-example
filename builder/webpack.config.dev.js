@@ -1,26 +1,15 @@
 const webpackConfig = require('./webpack.config')
 const webpack = require('webpack')
-webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
+const merge = require('webpack-merge')
 
-webpackConfig.mode = 'development'
-webpackConfig.devServer = {
-    open: true,
-    stats: {
-        colors: true,
-        hash: false,
-        version: false,
-        timings: false,
-        assets: false,
-        chunks: false,
-        modules: false,
-        reasons: false,
-        children: false,
-        source: false,
-        errors: false,
-        errorDetails: false,
-        warnings: false,
-        publicPath: false
+const devConfig = {
+    mode: 'development',
+    plugins: [new webpack.HotModuleReplacementPlugin()],
+    devServer: {
+        open: true,
+        historyApiFallback: true,
+        stats: 'errors-only'
     }
 }
 
-module.exports = webpackConfig
+module.exports = merge(webpackConfig, devConfig)

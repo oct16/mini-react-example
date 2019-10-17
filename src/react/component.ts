@@ -1,17 +1,16 @@
 import { ElNode, VNode } from '@/lib/model'
-import { renderComponent } from '@/react-dom/diff'
+import { diffComponent, diffNode, renderComponent } from '@/react-dom/diff'
 import { replaceNode } from '@/react-dom/dom'
 import LifeCycle from './life-cycle'
 abstract class Component<P = {}, S = {}> extends LifeCycle {
     public node: ElNode
-    public state: { [key: string]: any }
-    public props: { [key: string]: any }
+    public state: { [key: string]: any } = {}
+    public props: { [key: string]: any } = {}
 
     constructor(props?: Readonly<P>) {
         super()
-        this.state = {}
         if (props) {
-            this.props = props
+            this.props = Object.assign(this.props, props)
         }
     }
 
@@ -25,6 +24,11 @@ abstract class Component<P = {}, S = {}> extends LifeCycle {
         }
 
         renderComponent(this)
+    }
+
+    public forceUpdate(): void {
+        const vNode = this.render()
+        this.node = diffNode(vNode, this.node)
     }
 
     protected destroy(): void {

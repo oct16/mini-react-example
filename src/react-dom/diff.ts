@@ -7,7 +7,10 @@ import Component from '@/react/component'
  * Diff self and all children
  *
  */
-function diffNode(vNode: VNode, node: ElNode) {
+export function diffNode(vNode: VNode, node: ElNode) {
+    if (vNode === null) {
+        return null
+    }
     if (typeof vNode === 'string' || typeof vNode === 'number') {
         return diffText(vNode, node)
     } else if (typeof vNode.tagName === 'function') {
@@ -16,7 +19,7 @@ function diffNode(vNode: VNode, node: ElNode) {
 
     const output = !node || !isSameNodeType(vNode, node) ? createNode(vNode, node) : (node as Element)
 
-    if ((vNode.children && vNode.children.length) || (output.children && output.children.length)) {
+    if ((vNode.children && vNode.children.length) || (output.childNodes && output.childNodes.length)) {
         diffChildren(vNode, output)
     }
 
@@ -46,15 +49,15 @@ function diffChildren(vNode: VNode, node: Element): void {
         }
         const lastNode = child
         child = diffNode(vChild, child)
-        updateDom(node, lastNode, child)
+        if (child) {
+            updateDom(node, lastNode, child)
+        }
     })
 
     if (nodeChildren.length) {
         const child = findAllChild(nodeChildren)
         child.forEach(c => unmountComponent((c as InstanceElement).instance as Component))
-        nodeChildren.forEach(n => {
-            replaceNode(n)
-        })
+        nodeChildren.forEach(n => replaceNode(n))
     }
 }
 
@@ -163,7 +166,7 @@ function isSameNodeType(vNode: VNode, node: ElNode): boolean {
  * Diff Component type node
  *
  */
-function diffComponent(vNode: VNode, node: InstanceElement): Element {
+export function diffComponent(vNode: VNode, node: InstanceElement): Element | null {
     const instanceCache = node && (node as InstanceElement).instance
 
     // If the component constructor has not changed than is the same component
@@ -176,12 +179,17 @@ function diffComponent(vNode: VNode, node: InstanceElement): Element {
             if (instanceCache.componentWillUnmount) {
                 instanceCache.componentWillUnmount()
             }
-            replaceNode(node)
+            // replaceNode(node)
             node.instance = null
             instanceCache.node = null
         }
         // replace by new node
         const instance = createComponent(vNode)
+
+        if (!instance.props) {
+            instance.props = {}
+        }
+        instance.props.children = vNode.children
         return renderComponent(instance)
     }
 }
@@ -212,7 +220,6 @@ export function renderComponent(instance: Component): Element {
         componentWillMount.call(instance)
     }
     const vNode = render.call(instance)
-
     if (instance.node && componentWillUpdate) {
         if (componentWillUpdate) {
             componentWillUpdate.call(instance)
@@ -276,9 +283,12 @@ function unmountComponent(instance: Component): void {
  * For bootstrap step
  *
  */
-export default function diff(vNode: VNode, node: ElNode, container?: Element): Element {
+export default function diff(vNode: VNode, node: ElNode, container?: Element): Element | null {
+    if (!vNode) {
+        return null
+    }
     const output = diffNode(vNode, node)
-    if (container) {
+    if (container && output) {
         container.appendChild(output)
     }
     return output
