@@ -6,7 +6,6 @@ export function register(instance) {
     instances.push(instance)
 }
 
-
 export function updateRoutes() {
     instances.forEach(instance => instance.forceUpdate())
 }
@@ -23,6 +22,13 @@ export const historyReplace = (path: string) => {
     window.history.replaceState({}, '', path)
 }
 
+function purePath(path: string) {
+    if (path.endsWith('/')) {
+        return path.substr(0, path.length - 1)
+    }
+    return path
+}
+
 export const matchPath = (path: string, exact = false) => {
     const pathName = location.pathname
 
@@ -33,14 +39,15 @@ export const matchPath = (path: string, exact = false) => {
             isExact: true
         }
     }
-    const match = new RegExp(`^${path}`).exec(pathName)
+
+    const match = new RegExp(`^${purePath(path)}`).exec(purePath(pathName))
 
     if (!match) {
         return null
     }
 
     const [url] = match
-    const isExact = pathName === url
+    const isExact = purePath(pathName) === purePath(url)
     if (exact && !isExact) {
         return null
     }

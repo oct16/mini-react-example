@@ -10,10 +10,10 @@ export default class RightSide extends MiniReact.Component {
     public render(): VNode {
         return (
             <div>
-                <Route path="/help" component={<Help />} />
-                <Route path="/my" component={<My />} />
-                <Route path="/dashboard" component={<DashBoard />} />
-                <Route exact={true} path="/" component={<Agent />} />
+                <Route path="/mini-react/help" component={<Help />} />
+                <Route path="/mini-react/my" component={<My />} />
+                <Route path="/mini-react/dashboard" component={<DashBoard />} />
+                <Route exact={true} path="/mini-react/" component={<Agent />} />
             </div>
         )
     }

@@ -24,22 +24,22 @@ export default class LeftSide extends MiniReact.Component {
             {
                 name: 'DASHBOARD',
                 icon: 'icon-dashboard',
-                to: '/dashboard'
+                to: '/mini-react/dashboard'
             },
             {
                 name: 'AGENT',
                 icon: 'icon-sitemap',
-                to: '/'
+                to: '/mini-react/'
             },
             {
                 name: 'MY CRUISE',
                 icon: 'icon-boat',
-                to: '/my'
+                to: '/mini-react/my'
             },
             {
                 name: 'HELP',
                 icon: 'icon-life-bouy',
-                to: '/help'
+                to: '/mini-react/help'
             }
         ]
     }

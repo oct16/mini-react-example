@@ -4,6 +4,6 @@ import MiniReact from '@/react/index'
 
 export default class Help extends MiniReact.Component {
     public render(): VNode {
-        return <h1>My Component</h1>
+        return <h1>Help Component</h1>
     }
 }
