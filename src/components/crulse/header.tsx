@@ -1,4 +1,4 @@
-import logo from '@/assets/logo/logo.svg'
+import logo from '@/assets/logo/logo.png'
 import { VNode } from '@/lib/model'
 import MiniReact from '@/react/index'
 export default class Header extends MiniReact.Component {

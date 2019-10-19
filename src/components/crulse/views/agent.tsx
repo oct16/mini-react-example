@@ -90,13 +90,13 @@ export default class Agent extends MiniReact.Component {
         return (
             <aside className="cruise-agent">
                 <ul className="agent-info">
-                    <li className="info-building panel font-bg cog">
+                    <li className="info-building panel font-bg icofont-ui-settings">
                         <div className="name"> {this.state.panel.building.name}</div>
                         <div className="count">
                             {this.state.agentList.filter(item => item.status === 'building').length}
                         </div>
                     </li>
-                    <li className="info-idle panel font-bg coffee">
+                    <li className="info-idle panel font-bg icofont-coffee-mug">
                         <div className="name">{this.state.panel.idle.name}</div>
                         <div className="count">
                             {this.state.agentList.filter(item => item.status === 'idle').length}
@@ -130,14 +130,14 @@ export default class Agent extends MiniReact.Component {
                     <li className="tab-search">
                         <div className="input-group">
                             <label for="search-input">
-                                <i className="icon-search"></i>
+                                <i className="icofont-search-1"></i>
                             </label>
                             <input id="search-input" onInput={(e: InputEvent) => this.searchInputHandle(e)} />
                         </div>
                     </li>
                     <li className="tab-th">
-                        <i className="icon-th-card"></i>
-                        <i className="icon-th-list active"></i>
+                        {/* <i className="icofont-ghost "></i> */}
+                        <i className="icofont-navigation-menu active"></i>
                     </li>
                 </ul>
                 <ul className="agent-list">
@@ -151,7 +151,7 @@ export default class Agent extends MiniReact.Component {
                                 <div className="detail">
                                     <ul className="detail-header">
                                         <li>
-                                            <i className="icon-desktop"></i>
+                                            <i className="icofont-bulb-alt"></i>
                                             <span className="detail-title">{item.title}</span>
                                         </li>
                                         <li>
@@ -166,22 +166,22 @@ export default class Agent extends MiniReact.Component {
                                             </div>
                                         </li>
                                         <li>
-                                            <i className="icon-info">{item.ip}</i>
+                                            <i className="icofont-computer">{item.ip}</i>
                                         </li>
                                         <li>
-                                            <i className="icon-folder">{item.folderName}</i>
+                                            <i className="icofont-terminal"> {item.folderName}</i>
                                         </li>
                                     </ul>
                                     <div className="detail-bottom">
                                         <button className="add-button" onClick={e => this.addTag(e, item)}>
-                                            <i className="icon-plus"></i>
+                                            <i className="icofont-ui-add"></i>
                                         </button>
                                         <ul className="tags">
                                             {item.tags.map(tag => (
                                                 <li>
                                                     <span>{tag.title}</span>
                                                     <i
-                                                        className="icon-trash"
+                                                        className="icofont-close"
                                                         onClick={() => this.removeTag(item, tag)}
                                                     ></i>
                                                 </li>
@@ -190,12 +190,12 @@ export default class Agent extends MiniReact.Component {
 
                                         {item.status === 'building' ? (
                                             <button className="deny-button" onClick={() => this.stateToggle(item)}>
-                                                <i className="icon-deny"></i>
+                                                <i className="icofont-not-allowed"></i>
                                                 <span>Deny</span>
                                             </button>
                                         ) : (
                                             <button className="deny-button" onClick={() => this.stateToggle(item)}>
-                                                <i style="margin-right: 5px" className="icon-sign-in"></i>
+                                                <i style="margin-right: 5px" className="icofont-sign-in"></i>
                                                 <span>Build</span>
                                             </button>
                                         )}

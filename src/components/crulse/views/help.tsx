@@ -1,4 +1,3 @@
-
 import { VNode } from '@/lib/model'
 import MiniReact from '@/react/index'
 

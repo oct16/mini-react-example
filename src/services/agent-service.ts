@@ -1,6 +1,6 @@
 const mockAgentList = [
     {
-        icon: 'assets/os_icons/windows.png',
+        icon: 'assets/os_icons/windows.jpg',
         title: 'happyhacking01.oct16.cn',
         folderName: '/var/lib/cruise-agent',
         ip: '192.168.1.125',
@@ -21,7 +21,7 @@ const mockAgentList = [
         ]
     },
     {
-        icon: 'assets/os_icons/windows.png',
+        icon: 'assets/os_icons/windows.jpg',
         title: 'happyhacking08.oct16.cn',
         folderName: '/var/lib/cruise-agent',
         ip: '192.168.1.182',
@@ -57,7 +57,7 @@ const mockAgentList = [
         ]
     },
     {
-        icon: 'assets/os_icons/debin.png',
+        icon: 'assets/os_icons/debian.jpg',
         title: 'happyhacking11.oct16.cn',
         folderName: '/var/lib/cruise-agent',
         ip: '192.168.1.204',
@@ -65,7 +65,7 @@ const mockAgentList = [
         tags: []
     },
     {
-        icon: 'assets/os_icons/suse.png',
+        icon: 'assets/os_icons/debian.jpg',
         title: 'happyhacking.oct16.cn',
         folderName: '/var/lib/cruise-agent',
         ip: '192.168.1.132',
@@ -86,7 +86,7 @@ const mockAgentList = [
         ]
     },
     {
-        icon: 'assets/os_icons/cent_os.png',
+        icon: 'assets/os_icons/centos.jpg',
         title: 'happyhacking01.oct16.cn',
         folderName: '/var/lib/cruise-agent',
         ip: '192.168.1.112',
@@ -107,7 +107,7 @@ const mockAgentList = [
         ]
     },
     {
-        icon: 'assets/os_icons/cent_os.png',
+        icon: 'assets/os_icons/centos.jpg',
         title: 'happyhacking016.oct16.cn',
         folderName: '/var/lib/cruise-agent',
         ip: '192.168.1.142',

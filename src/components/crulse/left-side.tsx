@@ -23,22 +23,22 @@ export default class LeftSide extends MiniReact.Component {
         navList: [
             {
                 name: 'DASHBOARD',
-                icon: 'icon-dashboard',
+                icon: 'icofont-dashboard',
                 to: '/mini-react/dashboard'
             },
             {
                 name: 'AGENT',
-                icon: 'icon-sitemap',
+                icon: 'icofont-ship',
                 to: '/mini-react/'
             },
             {
                 name: 'MY CRUISE',
-                icon: 'icon-boat',
+                icon: 'icofont-magento',
                 to: '/mini-react/my'
             },
             {
                 name: 'HELP',
-                icon: 'icon-life-bouy',
+                icon: 'icofont-files-stack',
                 to: '/mini-react/help'
             }
         ]

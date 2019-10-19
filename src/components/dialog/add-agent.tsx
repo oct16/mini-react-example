@@ -30,7 +30,7 @@ export class AddAgentDialog extends Dialog {
                 <div className="triangle"></div>
                 <div className="triangle inner"></div>
                 <div className="dialog-close">
-                    <i onClick={() => this.close()} className="icon-close"></i>
+                    <i onClick={() => this.close()} className="icofont-close"></i>
                 </div>
 
                 <form onSubmit={(e: Event) => this.submit(e)}>
