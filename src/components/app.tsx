@@ -1,9 +1,9 @@
 import MiniReact from '@/react/index'
 import ForkGithub from './common/fork-github'
-import Footer from './crulse/footer'
-import Header from './crulse/header'
-import LeftSide from './crulse/left-side'
-import RightSide from './crulse/right-side'
+import Footer from './cooper/footer'
+import Header from './cooper/header'
+import LeftSide from './cooper/left-side'
+import RightSide from './cooper/right-side'
 
 export default class App extends MiniReact.Component {
     constructor(props) {

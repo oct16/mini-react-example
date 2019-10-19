@@ -1,10 +1,10 @@
 import { VNode } from '@/lib/model'
 import MiniReact from '@/react/index'
 import { Route } from '../common/router/route'
-import Agent from '../crulse/views/agent'
-import DashBoard from '../crulse/views/dashboard'
-import Help from '../crulse/views/help'
-import My from '../crulse/views/my'
+import Agent from './views/agent'
+import DashBoard from './views/dashboard'
+import Help from './views/help'
+import My from './views/my'
 
 export default class RightSide extends MiniReact.Component {
     public render(): VNode {
