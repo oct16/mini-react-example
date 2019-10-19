@@ -3,21 +3,40 @@
 #### TODO
 
 - [x] **ENV**
+    - [x] **Dev**
+    - [x] **Prod**
+    - [x] **Test**
+    - [x] **Analyze**
 - [x] **TSX**
-- [x] **Diff Engine** [Reconciliation](https://reactjs.org/docs/reconciliation.html) [Article](https://github.com/hujiulong/blog/issues/4)
+    - [x] **Lint**
+    - [x] **JsxFactory**
+- [ ] **Diff Engine** [Reconciliation](https://reactjs.org/docs/reconciliation.html) [Article](https://github.com/hujiulong/blog/issues/4)
     - [x] **Element**
     - [x] **Component**
     - [x] **Attribute**
     - [ ] **Key Strategy**
-- [x] **Life Cycle**
+- [ ] **Life Cycle**
+    - [x] **componentWillMount**
+    - [x] **componentDidMount**
+    - [x] **componentWillReceiveProps**
+    - [ ] **shouldComponentUpdate**
+    - [x] **componentDidUpdate**
+    - [x] **componentWillUnmount**
 - [x] **Props**
+- [ ] **Refs**
 - [x] **Demo**
 - [x] **Async Queue** [Why is setState asynchronous?](https://github.com/facebook/react/issues/11527)
-- [x] **Router & Link** [Build your own React Router v4](https://tylermcginnis.com/build-your-own-react-router-v4/)
+- [x] **Router** [Build your own React Router v4](https://tylermcginnis.com/build-your-own-react-router-v4/)
+    - [x] **Route**
+    - [x] **Link**
 - [ ] **Dynamic Import**
-- [ ] **Redux**
-- [ ] **Refs**
 - [ ] **HOC**
+- [ ] **Redux**
+     - [ ] **Connect**
+     - [ ] **Provider**
+     - [ ] **mapStateToProps**
+     - [ ] **mapDispatchToProps**
+- [ ] **Hooks**
 - [ ] **SSR**
 - [ ] **...**
 
