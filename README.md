@@ -24,5 +24,3 @@
 
 ---
 Demo: [https://oct16.github.io/mini-react/](https://oct16.github.io/mini-react/)
-
-![screenshot](2019-10-08-11-52-25.png)
