@@ -1,6 +1,6 @@
 import { VNode } from '@/lib/model'
 import MiniReact from '@/react/index'
-import AgentService from '@/services/agent-service'
+import AgentService from '@/services/cooper-service'
 import { AddAgentDialog } from '../../dialog/add-agent'
 
 export default class Agent extends MiniReact.Component {

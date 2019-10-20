@@ -1,7 +1,7 @@
 import { VNode } from '@/lib/model'
 import MiniReact from '@/react/index'
 import { Route } from '../common/router/route'
-import Agent from './views/agent'
+import Agent from './views/cooper'
 import DashBoard from './views/dashboard'
 import Help from './views/help'
 import My from './views/my'
