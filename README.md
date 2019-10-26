@@ -29,9 +29,9 @@
 - [x] **Router** [Build your own React Router v4](https://tylermcginnis.com/build-your-own-react-router-v4/)
     - [x] **Route**
     - [x] **Link**
-- [ ] **Dynamic Import**
+- [ ] **Dynamic Import** [React-router-code-splitting](https://tylermcginnis.com/react-router-code-splitting/)
 - [ ] **HOC**
-- [ ] **Redux**
+- [ ] **Redux** [How-to-create-your-own-redux](https://medium.com/@patrykandrzejewski/how-to-create-your-own-redux-9f89a80875e5)
      - [ ] **Connect**
      - [ ] **Provider**
      - [ ] **mapStateToProps**
