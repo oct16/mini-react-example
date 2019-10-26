@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
     entry: path.resolve(__dirname, '../src/index.tsx'),
@@ -21,8 +22,18 @@ module.exports = {
                 enforce: 'pre'
             },
             {
-                test: /\.styl$/,
-                loader: 'style-loader!css-loader!postcss-loader!stylus-loader'
+                test: /\.(styl|css)$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: process.env.NODE_ENV === 'development'
+                        }
+                    },
+                    'css-loader',
+                    'postcss-loader',
+                    'stylus-loader'
+                ]
             },
             {
                 test: /\.pug$/,
@@ -35,16 +46,12 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
-            },
-            {
                 test: /\.(jpe?g|png|gif|svg|eot|woff\d?|ttf)$/,
                 use: [
                     {
                         loader: 'url-loader',
                         options: {
-                            limit: 8192
+                            limit: 0
                         }
                     }
                 ]
