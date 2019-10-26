@@ -1,18 +1,9 @@
 const webpackConfig = require('./webpack.config')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const merge = require('webpack-merge')
 
 const productionConfig = {
-    plugins: [
-        new CleanWebpackPlugin(),
-        new CopyWebpackPlugin([
-            {
-                from: 'src/assets',
-                to: 'assets/'
-            }
-        ])
-    ],
+    plugins: [new CleanWebpackPlugin()],
     optimization: {
         minimize: true
     }

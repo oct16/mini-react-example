@@ -42,7 +42,7 @@ export abstract class Dialog extends MiniReact.Component {
 
     public initData(data: any) {
         this.state = data
-        this.setState(this.state)
+        this.setState()
     }
 
     public createContainer() {

@@ -21,8 +21,8 @@ abstract class Component<P = {}, S = {}> extends LifeCycle {
 
     public abstract render(): VNode
 
-    public setState(newState: Readonly<S>) {
-        queue.enqueue(newState, this)
+    public setState(newState?: Readonly<S>) {
+        queue.enqueue(newState ? newState : this.state, this)
     }
 
     public forceUpdate(): void {

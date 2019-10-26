@@ -7,7 +7,7 @@ const devConfig = {
     mode: 'development',
     output: {
         filename: '[name].[hash].js',
-        path: path.resolve(__dirname, '../dist')
+        path: path.resolve(__dirname, '../dist/mini-react')
     },
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {

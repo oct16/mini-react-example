@@ -24,12 +24,12 @@ export default class Agent extends MiniReact.Component {
     public loadAgentList(name?: string): void {
         const agentList = AgentService.getRandomAgentList(name)
         this.state.agentList = agentList
-        this.setState(this.state)
+        this.setState()
     }
     public loadPanelState(): void {
         const panelState = AgentService.loadPanelState()
         this.state.panel.tabs = panelState
-        this.setState(this.state)
+        this.setState()
     }
 
     public componentDidMount() {
@@ -55,14 +55,14 @@ export default class Agent extends MiniReact.Component {
                 .map((v: string) => ({ title: v }))
             item.tags.push(...value)
             item.tags = item.tags.splice(0, 6)
-            this.setState(this.state)
+            this.setState()
         }
     }
 
     public removeTag(item: any, tag: any): void {
         const index = item.tags.findIndex(t => t === tag)
         item.tags.splice(index, 1)
-        this.setState(this.state)
+        this.setState()
     }
     public stateToggle(item: any): void {
         if (item.status === 'idle') {
@@ -70,19 +70,19 @@ export default class Agent extends MiniReact.Component {
         } else {
             item.status = 'idle'
         }
-        this.setState(this.state)
+        this.setState()
     }
 
     public searchInputHandle(event: InputEvent): void {
         const val = (event.target as HTMLInputElement).value
         this.state.searchFilter = val
-        this.setState(this.state)
+        this.setState()
     }
 
     public tabHandle(item: { name: string }): void {
         const targetName = item.name
         this.activeTab = targetName
-        this.setState(this.state)
+        this.setState()
         this.loadAgentList(this.activeTab)
     }
 

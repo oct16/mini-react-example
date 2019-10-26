@@ -39,7 +39,7 @@ module.exports = {
                 loader: 'style-loader!css-loader'
             },
             {
-                test: /\.(jpe?g|png|gif|svg|woff\d?||ttf)$/,
+                test: /\.(jpe?g|png|gif|svg|eot|woff\d?|ttf)$/,
                 use: [
                     {
                         loader: 'url-loader',
