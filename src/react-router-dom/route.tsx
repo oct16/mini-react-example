@@ -1,6 +1,6 @@
 import Component from '@/react/component'
 import MiniReact from '@/react/index'
-import { matchPath, register, unRegister, updateRoutes } from '../router'
+import { matchPath, register, unRegister, updateRoutes } from './helper'
 
 export class Route extends Component {
     public componentWillMount(): void {

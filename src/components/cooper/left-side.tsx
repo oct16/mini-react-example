@@ -1,6 +1,6 @@
 import { VNode } from '@/lib/model'
+import { Link } from '@/react-router-dom/link'
 import MiniReact from '@/react/index'
-import { Link } from '../common/router/link'
 export default class LeftSide extends MiniReact.Component {
     public state = {
         histories: [

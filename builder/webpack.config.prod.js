@@ -5,11 +5,7 @@ const merge = require('webpack-merge')
 
 const productionConfig = {
     plugins: [
-        new CleanWebpackPlugin(),
-        new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css'
-        })
+        new CleanWebpackPlugin()
     ],
     optimization: {
         minimize: true

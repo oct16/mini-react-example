@@ -1,5 +1,5 @@
 import MiniReact from '@/react'
-import { historyPush, historyReplace, matchPath, register, unRegister, updateRoutes } from './index'
+import { historyPush, historyReplace, matchPath, register, unRegister, updateRoutes } from './helper'
 
 export class Link extends MiniReact.Component {
     constructor(props) {
