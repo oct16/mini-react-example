@@ -31,7 +31,7 @@
     - [x] **Link**
 - [x] **Dynamic Import** 
     - [x] **Dynamic Component**
-    - [ ] **Dynamic Route** [React-router-code-splitting](https://tylermcginnis.com/react-router-code-splitting/)
+    - [x] **Dynamic Route** [React-router-code-splitting](https://tylermcginnis.com/react-router-code-splitting/)
 - [ ] **HOC**
 - [ ] **Redux** [How-to-create-your-own-redux](https://medium.com/@patrykandrzejewski/how-to-create-your-own-redux-9f89a80875e5)
      - [ ] **Connect**

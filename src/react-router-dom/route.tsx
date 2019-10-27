@@ -1,5 +1,6 @@
 import { VNode } from '@/lib/model'
 import { wrapComponent } from '@/react-dom/diff'
+import DynamicImport from '@/react-router-dom/dynamic-import'
 import Component from '@/react/component'
 import { matchPath, register, unRegister, updateRoutes } from './helper'
 
@@ -17,7 +18,7 @@ export class Route extends Component {
     public handlePop = () => updateRoutes()
 
     public render() {
-        const { path, exact, component } = this.props
+        const { path, exact, component, className } = this.props
         const match = matchPath(path, exact)
 
         if (!match) {
@@ -25,7 +26,7 @@ export class Route extends Component {
         }
 
         if (component) {
-            return wrapComponent(component.tagName, this.props)
+            return wrapComponent('route', component.tagName, { className, path, exact }, component.attributes)
         }
         return ('' as unknown) as VNode
     }

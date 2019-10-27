@@ -217,14 +217,19 @@ function constructComponent(func: any, props: { [key: string]: any } = {}): Comp
  * e.g. vNode = 'class Footer extend Component { ... }'
  *
  */
-export function wrapComponent(vNode: { name: string }, attr: { [key: string]: any } = {}): VNode {
+export function wrapComponent(
+    wrapTagName: string,
+    tagName: string | Component<{}, {}>,
+    wrapProps: { [key: string]: any } = {},
+    props: { [key: string]: any } = {}
+): VNode {
     return {
-        tagName: vNode.name,
-        attributes: attr,
+        tagName: wrapTagName,
+        attributes: wrapProps,
         children: [
             {
-                tagName: vNode as any,
-                attributes: {},
+                tagName,
+                attributes: props,
                 children: []
             }
         ]
@@ -246,7 +251,7 @@ export function renderComponent(instance: Component): Element {
     const vNode = render.call(instance)
 
     if (typeof vNode === 'function') {
-        return diffNode(wrapComponent(vNode), instance.node) as Element
+        return diffNode(wrapComponent((vNode as any).name, vNode), instance.node) as Element
     }
 
     if (instance.node && componentWillUpdate) {
