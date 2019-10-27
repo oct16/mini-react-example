@@ -1,3 +1,4 @@
+import Loadable from '@/react-router-dom/loadable'
 import MiniReact from '@/react/index'
 import ForkGithub from './common/fork-github'
 import Footer from './cooper/footer'
@@ -18,7 +19,8 @@ export default class App extends MiniReact.Component {
                     <Header />
                     <div className="cruise-content">
                         <LeftSide />
-                        <RightSide />
+                        {Loadable({ loader: () => import('./cooper/right-side') })}
+                        {/* <RightSide /> */}
                     </div>
                     <Footer />
                 </div>

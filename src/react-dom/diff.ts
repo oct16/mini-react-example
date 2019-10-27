@@ -8,7 +8,7 @@ import Component from '@/react/component'
  *
  */
 export function diffNode(vNode: VNode, node: ElNode) {
-    if (vNode === null) {
+    if (vNode === null || vNode === undefined) {
         return null
     }
     if (typeof vNode === 'string' || typeof vNode === 'number') {
@@ -130,10 +130,10 @@ function diffAttributes(vNode: VNode, node: Element): void {
 function createNode(vNode: VNode, node: ElNode): Element {
     const output = document.createElement(vNode.tagName as string)
     if (node) {
-        Array.from(node.childNodes).map(output.appendChild)
+        const childNodes = Array.from(node.childNodes)
+        childNodes.forEach(childNode => output.appendChild(childNode))
         replaceNode(node, output)
     }
-
     return output
 }
 
@@ -204,7 +204,31 @@ function createComponent(vNode: VNode) {
     const attrs = vNode.attributes
     const props = attrs
     const componentConstructor = vNode.tagName as any
-    return new componentConstructor(props)
+    return constructComponent(componentConstructor, props)
+}
+
+function constructComponent(func: any, props: { [key: string]: any } = {}): Component {
+    return new func(props)
+}
+
+/**
+ *
+ * Wrap the component by self name by vNode
+ * e.g. vNode = 'class Footer extend Component { ... }'
+ *
+ */
+export function wrapComponent(vNode: { name: string }, attr: { [key: string]: any } = {}): VNode {
+    return {
+        tagName: vNode.name,
+        attributes: attr,
+        children: [
+            {
+                tagName: vNode as any,
+                attributes: {},
+                children: []
+            }
+        ]
+    }
 }
 
 /**
@@ -220,6 +244,11 @@ export function renderComponent(instance: Component): Element {
         componentWillMount.call(instance)
     }
     const vNode = render.call(instance)
+
+    if (typeof vNode === 'function') {
+        return diffNode(wrapComponent(vNode), instance.node) as Element
+    }
+
     if (instance.node && componentWillUpdate) {
         if (componentWillUpdate) {
             componentWillUpdate.call(instance)

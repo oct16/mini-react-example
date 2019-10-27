@@ -12,4 +12,8 @@ declare namespace JSX {
         // specify the property name to use
         props: any
     }
+
+    // interface IntrinsicElements {
+
+    // }
 }

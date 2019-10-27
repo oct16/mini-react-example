@@ -1,5 +1,5 @@
 import { ElNode, VNode } from '@/lib/model'
-import { diffNode } from '@/react-dom/diff'
+import { diffNode, renderComponent } from '@/react-dom/diff'
 import { replaceNode } from '@/react-dom/dom'
 import LifeCycle from './life-cycle'
 
@@ -26,8 +26,7 @@ abstract class Component<P = {}, S = {}> extends LifeCycle {
     }
 
     public forceUpdate(): void {
-        const vNode = this.render()
-        this.node = diffNode(vNode, this.node)
+        this.node = renderComponent(this)
     }
 
     protected destroy(): void {

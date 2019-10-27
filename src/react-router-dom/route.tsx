@@ -1,5 +1,6 @@
+import { VNode } from '@/lib/model'
+import { wrapComponent } from '@/react-dom/diff'
 import Component from '@/react/component'
-import MiniReact from '@/react/index'
 import { matchPath, register, unRegister, updateRoutes } from './helper'
 
 export class Route extends Component {
@@ -20,13 +21,12 @@ export class Route extends Component {
         const match = matchPath(path, exact)
 
         if (!match) {
-            return ''
+            return ('' as unknown) as VNode
         }
 
         if (component) {
-            return <div className={this.props.className}>{component}</div>
+            return wrapComponent(component.tagName, this.props)
         }
-
-        return ''
+        return ('' as unknown) as VNode
     }
 }
