@@ -166,10 +166,12 @@ export default class Cooper extends MiniReact.Component {
                                             </div>
                                         </li>
                                         <li>
-                                            <i className="icofont-computer">{item.ip}</i>
+                                            <i className="icofont-computer"></i>
+                                            {item.ip}
                                         </li>
                                         <li>
-                                            <i className="icofont-terminal"> {item.folderName}</i>
+                                            <i className="icofont-terminal"></i>
+                                            {item.folderName}
                                         </li>
                                     </ul>
                                     <div className="detail-bottom">
