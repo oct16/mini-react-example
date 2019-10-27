@@ -1,9 +1,9 @@
+import { AddItemDialog } from '@/components/dialog/add-item'
 import { VNode } from '@/lib/model'
 import MiniReact from '@/react/index'
-import AgentService from '@/services/cooper-service'
-import { AddAgentDialog } from '../../dialog/add-agent'
+import CooperService from '@/services/cooper-service'
 
-export default class Agent extends MiniReact.Component {
+export default class Cooper extends MiniReact.Component {
     public activeTab = 'ALL'
 
     public state = {
@@ -16,24 +16,24 @@ export default class Agent extends MiniReact.Component {
             },
             tabs: [] as any
         },
-        agentList: [] as any,
+        cooperList: [] as any,
         searchFilter: ''
     }
-    public dialog: AddAgentDialog | null = new AddAgentDialog()
+    public dialog: AddItemDialog | null = new AddItemDialog()
 
-    public loadAgentList(name?: string): void {
-        const agentList = AgentService.getRandomAgentList(name)
-        this.state.agentList = agentList
+    public loadCooperList(name?: string): void {
+        const cooperList = CooperService.getRandomCooperList(name)
+        this.state.cooperList = cooperList
         this.setState()
     }
     public loadPanelState(): void {
-        const panelState = AgentService.loadPanelState()
+        const panelState = CooperService.loadPanelState()
         this.state.panel.tabs = panelState
         this.setState()
     }
 
     public componentDidMount() {
-        this.loadAgentList()
+        this.loadCooperList()
         this.loadPanelState()
     }
     public componentWillUnmount() {
@@ -83,23 +83,23 @@ export default class Agent extends MiniReact.Component {
         const targetName = item.name
         this.activeTab = targetName
         this.setState()
-        this.loadAgentList(this.activeTab)
+        this.loadCooperList(this.activeTab)
     }
 
     public render(): VNode {
         return (
-            <aside className="cruise-agent">
-                <ul className="agent-info">
+            <aside className="app-cooper">
+                <ul className="cooper-info">
                     <li className="info-building panel font-bg icofont-ui-settings">
                         <div className="name"> {this.state.panel.building.name}</div>
                         <div className="count">
-                            {this.state.agentList.filter(item => item.status === 'building').length}
+                            {this.state.cooperList.filter(item => item.status === 'building').length}
                         </div>
                     </li>
                     <li className="info-idle panel font-bg icofont-coffee-mug">
                         <div className="name">{this.state.panel.idle.name}</div>
                         <div className="count">
-                            {this.state.agentList.filter(item => item.status === 'idle').length}
+                            {this.state.cooperList.filter(item => item.status === 'idle').length}
                         </div>
                     </li>
                     <li className="info-detail">
@@ -117,7 +117,7 @@ export default class Agent extends MiniReact.Component {
                         </table>
                     </li>
                 </ul>
-                <ul className="agent-tab">
+                <ul className="cooper-tab">
                     <li className="tab-filter">
                         <ul>
                             {this.state.panel.tabs.map(tab => (
@@ -140,11 +140,11 @@ export default class Agent extends MiniReact.Component {
                         <i className="icofont-navigation-menu active"></i>
                     </li>
                 </ul>
-                <ul className="agent-list">
-                    {this.state.agentList
-                        .filter((agent: any) => agent.title.indexOf(this.state.searchFilter) !== -1)
+                <ul className="cooper-list">
+                    {this.state.cooperList
+                        .filter((cooper: any) => cooper.title.indexOf(this.state.searchFilter) !== -1)
                         .map((item: any) => (
-                            <li className="agent-list-item" building={item.status === 'building'}>
+                            <li className="cooper-list-item" building={item.status === 'building'}>
                                 <div className="logo">
                                     <img src={require('@/' + item.icon)} />
                                 </div>
@@ -158,8 +158,8 @@ export default class Agent extends MiniReact.Component {
                                             <div
                                                 className={
                                                     item.status === 'building'
-                                                        ? 'agent-status status-building'
-                                                        : 'agent-status'
+                                                        ? 'cooper-status status-building'
+                                                        : 'cooper-status'
                                                 }
                                             >
                                                 {item.status}

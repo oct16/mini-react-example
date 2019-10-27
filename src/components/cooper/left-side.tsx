@@ -3,23 +3,13 @@ import { Link } from '@/react-router-dom/link'
 import MiniReact from '@/react/index'
 export default class LeftSide extends MiniReact.Component {
     public state = {
-        histories: [
-            'happyhacking03/Acceptance_test',
-            'happyhacking04/Acceptance_test',
-            'happyhacking05/Acceptance_test',
-            'happyhacking06/Acceptance_test',
-            'happyhacking07/Acceptance_test',
-            'happyhacking08/Acceptance_test',
-            'happyhacking09/Acceptance_test',
-            'happyhacking10/Acceptance_test',
-            'happyhacking11/Acceptance_test',
-            'happyhacking12/Acceptance_test',
-            'happyhacking13/Acceptance_test',
-            'happyhacking14/Acceptance_test',
-            'happyhacking15/Acceptance_test',
-            'happyhacking16/Acceptance_test',
-            'happyhacking17/Acceptance_test'
-        ],
+        // @ts-ignore
+        histories: Array.apply(null, { length: 20 }).map(
+            () =>
+                `mini-cooper-${Math.random()
+                    .toString(16)
+                    .substr(3, 11)}-test-logger`
+        ),
         navList: [
             {
                 name: 'DASHBOARD',
@@ -27,12 +17,12 @@ export default class LeftSide extends MiniReact.Component {
                 to: '/mini-react/dashboard'
             },
             {
-                name: 'AGENT',
+                name: 'COOPER',
                 icon: 'icofont-ship',
-                to: '/mini-react/'
+                to: '/mini-react'
             },
             {
-                name: 'MY CRUISE',
+                name: 'MY TEST',
                 icon: 'icofont-magento',
                 to: '/mini-react/my'
             },
@@ -46,7 +36,7 @@ export default class LeftSide extends MiniReact.Component {
 
     public render(): VNode {
         return (
-            <aside className="cruise-left">
+            <aside className="app-left">
                 <ul className="nav">
                     {this.state.navList.map(navItem => (
                         <li>

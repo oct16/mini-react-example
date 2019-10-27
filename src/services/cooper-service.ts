@@ -1,8 +1,8 @@
-const mockAgentList = [
+const mockCooperList = [
     {
         icon: 'assets/os_icons/windows.jpg',
-        title: 'happyhacking01.oct16.cn',
-        folderName: '/var/lib/cruise-agent',
+        title: 'mini-cooper-01.oct16.cn',
+        folderName: '/var/lib/app-cooper',
         ip: '192.168.1.125',
         status: 'idle',
         tags: [
@@ -22,8 +22,8 @@ const mockAgentList = [
     },
     {
         icon: 'assets/os_icons/windows.jpg',
-        title: 'happyhacking08.oct16.cn',
-        folderName: '/var/lib/cruise-agent',
+        title: 'mini-cooper-08.oct16.cn',
+        folderName: '/var/lib/app-cooper',
         ip: '192.168.1.182',
         status: 'building',
         tags: [
@@ -43,8 +43,8 @@ const mockAgentList = [
     },
     {
         icon: 'assets/os_icons/ubuntu.png',
-        title: 'happyhacking10.oct16.cn',
-        folderName: '/var/lib/cruise-agent',
+        title: 'mini-cooper-10.oct16.cn',
+        folderName: '/var/lib/app-cooper',
         ip: '192.168.1.62',
         status: 'building',
         tags: [
@@ -58,16 +58,16 @@ const mockAgentList = [
     },
     {
         icon: 'assets/os_icons/debian.jpg',
-        title: 'happyhacking11.oct16.cn',
-        folderName: '/var/lib/cruise-agent',
+        title: 'mini-cooper-11.oct16.cn',
+        folderName: '/var/lib/app-cooper',
         ip: '192.168.1.204',
         status: 'building',
         tags: []
     },
     {
         icon: 'assets/os_icons/debian.jpg',
-        title: 'happyhacking.oct16.cn',
-        folderName: '/var/lib/cruise-agent',
+        title: 'mini-cooper-65.oct16.cn',
+        folderName: '/var/lib/app-cooper',
         ip: '192.168.1.132',
         status: 'idle',
         tags: [
@@ -87,8 +87,8 @@ const mockAgentList = [
     },
     {
         icon: 'assets/os_icons/centos.jpg',
-        title: 'happyhacking01.oct16.cn',
-        folderName: '/var/lib/cruise-agent',
+        title: 'mini-cooper-01.oct16.cn',
+        folderName: '/var/lib/app-cooper',
         ip: '192.168.1.112',
         status: 'idle',
         tags: [
@@ -108,8 +108,8 @@ const mockAgentList = [
     },
     {
         icon: 'assets/os_icons/centos.jpg',
-        title: 'happyhacking016.oct16.cn',
-        folderName: '/var/lib/cruise-agent',
+        title: 'mini-cooper-016.oct16.cn',
+        folderName: '/var/lib/app-cooper',
         ip: '192.168.1.142',
         status: 'idle',
         tags: [
@@ -126,26 +126,26 @@ const mockAgentList = [
         ]
     }
 ]
-const AgentService = {
-    pivot: () => Math.floor(mockAgentList.length / 2),
-    getRandomAgentList(query?: string) {
+const CooperService = {
+    pivot: () => Math.floor(mockCooperList.length / 2),
+    getRandomCooperList(query?: string) {
         if (query === 'PHYSICAL') {
-            return mockAgentList.slice(0, this.pivot())
+            return mockCooperList.slice(0, this.pivot())
         } else if (query === 'VIRTUAL') {
-            return mockAgentList.slice(this.pivot())
+            return mockCooperList.slice(this.pivot())
         }
-        return mockAgentList
+        return mockCooperList
     },
     loadPanelState() {
         return [
-            { name: 'ALL', count: mockAgentList.length },
-            { name: 'PHYSICAL', count: mockAgentList.slice(0, this.pivot()).length },
+            { name: 'ALL', count: mockCooperList.length },
+            { name: 'PHYSICAL', count: mockCooperList.slice(0, this.pivot()).length },
             {
                 name: 'VIRTUAL',
-                count: mockAgentList.slice(this.pivot()).length
+                count: mockCooperList.slice(this.pivot()).length
             }
         ]
     }
 }
 
-export default AgentService
+export default CooperService

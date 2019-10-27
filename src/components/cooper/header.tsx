@@ -4,7 +4,7 @@ import MiniReact from '@/react/index'
 export default class Header extends MiniReact.Component {
     public render(): VNode {
         return (
-            <header className="cruise-header">
+            <header className="app-header">
                 <img className="logo" src={logo} />
             </header>
         )

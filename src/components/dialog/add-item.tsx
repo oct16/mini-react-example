@@ -2,7 +2,7 @@ import { VNode } from '@/lib/model'
 import MiniReact from '@/react/index'
 import { Dialog } from '.'
 
-export class AddAgentDialog extends Dialog {
+export class AddItemDialog extends Dialog {
     public data = {
         title: 'Separate multiple name with commas',
         confirm: 'Add Resources',

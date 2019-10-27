@@ -6,6 +6,10 @@ export default class Footer extends MiniReact.Component {
     }
 
     public render(): VNode {
-        return <footer className="cruise-footer">{this.state.copyright}</footer>
+        return (
+            <footer className="app-footer">
+                <a href="https://github.com/oct16/">{this.state.copyright}</a>
+            </footer>
+        )
     }
 }

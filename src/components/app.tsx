@@ -15,9 +15,9 @@ export default class App extends MiniReact.Component {
         return (
             <div>
                 <ForkGithub />
-                <div className="cruise">
+                <div className="app">
                     <Header />
-                    <div className="cruise-content">
+                    <div className="app-content">
                         <LeftSide />
                         {Loadable({ loader: () => import('./cooper/right-side') })}
                         {/* <RightSide /> */}

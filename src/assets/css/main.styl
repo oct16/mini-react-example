@@ -1,7 +1,7 @@
 @import './common/variables.styl';
 @import './common/reset.styl';
 
-.cruise-header {
+.app-header {
     grid-area: header;
     background: white;
     box-shadow: 0px 0px 10px 0 #888888;
@@ -17,7 +17,7 @@
     }
 }
 
-.cruise-content {
+.app-content {
     grid-area: content;
     background: white;
     display: grid;
@@ -28,7 +28,7 @@
     min-height: calc(100vh - 60px - 24px);
 }
 
-.cruise-left {
+.app-left {
     grid-area: leftside;
     background: $color-mazarine;
     color: #ccc;
@@ -101,11 +101,11 @@
     }
 }
 
-.cruise-right {
+.app-right {
     grid-area: right-side;
 }
 
-.cruise-footer {
+.app-footer {
     grid-area: footer;
     background: white;
     box-shadow: 10px 0px 0px 0 #888888;
@@ -114,21 +114,21 @@
     padding: 5px;
 }
 
-.cruise {
+.app {
     background: $color-grey;
     display: grid;
     grid-template-areas: 'header header' 'content content' 'footer footer';
     grid-template-columns: 1fr;
     grid-template-rows: 60px 1fr;
 
-    .cruise-agent {
+    .app-cooper {
         background: $color-grey;
 
-        .agent-list {
+        .cooper-list {
             margin: 10px 20px 0 20px;
             display: grid;
 
-            .agent-list-item {
+            .cooper-list-item {
                 background: white;
                 margin: 10px 0;
                 grid-template-columns: 100px auto;
@@ -154,7 +154,7 @@
                         li {
                         }
 
-                        .agent-status {
+                        .cooper-status {
                             display: inline-block;
                             padding: 0 5px;
                             line-height: 16px;
@@ -243,7 +243,7 @@
             }
         }
 
-        .agent-info {
+        .cooper-info {
             display: grid;
             grid-template-areas: 'info-building info-idle info-detail';
             grid-template-columns: 1fr 1fr 1fr;
@@ -286,7 +286,7 @@
                 }
 
                 &.font-bg {
-                    font-family: 'cruise';
+                    font-family: 'app';
 
                     &.icofont-ui-settings {
                         &:before {
@@ -343,7 +343,7 @@
             }
         }
 
-        .agent-tab {
+        .cooper-tab {
             margin: 0 20px;
             display: grid;
             grid-template-areas: 'tab-filter tab-search tab-th';
@@ -458,12 +458,12 @@
 }
 
 @media screen and (max-width: $responsive-phone) {
-    .cruise {
-        .cruise-left {
+    .app {
+        .app-left {
             display: none;
         }
 
-        .cruise-content {
+        .app-content {
             max-width: $responsive-phone;
             width: 100%;
             grid-template-areas: 'right-side';
@@ -471,8 +471,8 @@
             grid-template-rows: 1fr;
         }
 
-        .cruise-agent {
-            .agent-tab {
+        .app-cooper {
+            .cooper-tab {
                 margin: 10px;
                 display: grid;
                 grid-template-areas: 'tab-filter' 'tab-search' 'tab-th';
@@ -492,18 +492,18 @@
                 }
             }
 
-            .agent-info {
+            .cooper-info {
                 margin: 0;
                 grid-template-areas: 'info-building info-idle' 'info-detail info-detail';
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: 1fr 1fr;
             }
 
-            .agent-list {
+            .cooper-list {
                 margin: 10px;
                 margin-bottom: 0px;
 
-                .agent-list-item {
+                .cooper-list-item {
                     height: auto;
                     grid-template-columns: 1fr;
                     grid-template-rows: 1fr;
