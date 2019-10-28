@@ -30,6 +30,7 @@
 - [ ] **Components**
     - [x] **Demo**
     - [x] **Dialog**
+    - [x] **Loading**
     - [ ] **Form**
 - [x] **Async Queue** [Why is setState asynchronous?](https://github.com/facebook/react/issues/11527)
 - [x] **Router** [Build your own React Router v4](https://tylermcginnis.com/build-your-own-react-router-v4/)
