@@ -18,7 +18,8 @@ export class Route extends Component {
     public handlePop = () => updateRoutes()
 
     public render() {
-        const { path, exact, component, className } = this.props
+        const { path, exact } = this.props
+        const { component, children, ...props } = this.props
         const match = matchPath(path, exact)
 
         if (!match) {
@@ -26,7 +27,7 @@ export class Route extends Component {
         }
 
         if (component) {
-            return wrapComponent('route', component.tagName, { className, path, exact }, component.attributes)
+            return wrapComponent('route', component.tagName, props, component.attributes)
         }
         return ('' as unknown) as VNode
     }
