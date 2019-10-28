@@ -3,7 +3,6 @@ import '@/assets/css/main.styl'
 import '@/assets/fonts/icofont.css'
 
 import ReactDOM from '@/react-dom/index'
-import MiniReact from '@/react/index'
-import App from './components/app'
+import Loadable from './react-router-dom/loadable'
 
-ReactDOM.render(<App />, document.querySelector('#app'))
+ReactDOM.render(Loadable({ loader: () => import('./components/app') }), document.querySelector('#app'))
