@@ -1,14 +1,21 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpackConfig = require('./webpack.config')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const merge = require('webpack-merge')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const productionConfig = {
-    plugins: [
-        new CleanWebpackPlugin()
-    ],
+    plugins: [new CleanWebpackPlugin()],
     optimization: {
-        minimize: true
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    ecma: 6,
+                    keep_classnames: true
+                },
+                parallel: 4
+            })
+        ]
     }
 }
 

@@ -27,6 +27,7 @@
         "style-loader": "^1.0.0",
         "stylus": "^0.54.7",
         "stylus-loader": "^3.0.2",
+        "terser-webpack-plugin": "^2.2.1",
         "ts-loader": "^6.0.0",
         "tslint-config-prettier": "^1.18.0",
         "typescript": "^3.4.5",

@@ -251,7 +251,7 @@ export function renderComponent(instance: Component): Element {
     const vNode = render.call(instance)
 
     if (typeof vNode === 'function') {
-        return diffNode(wrapComponent((vNode as any).name, vNode), instance.node) as Element
+        return diffNode(wrapComponent((vNode as { name: string }).name, vNode), instance.node) as Element
     }
 
     if (instance.node && componentWillUpdate) {
