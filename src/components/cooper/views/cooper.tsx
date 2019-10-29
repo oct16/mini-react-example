@@ -3,6 +3,16 @@ import { VNode } from '@/lib/model'
 import MiniReact from '@/react/index'
 import CooperService from '@/services/cooper-service'
 
+interface CooperItem {
+    icon: string
+    title: string
+    folderName: string
+    ip: string
+    status: string
+    tags: Array<{
+        title: string
+    }>
+}
 export default class Cooper extends MiniReact.Component {
     public activeTab = 'ALL'
 
@@ -14,9 +24,12 @@ export default class Cooper extends MiniReact.Component {
             idle: {
                 name: 'Idle'
             },
-            tabs: [] as any
+            tabs: [] as Array<{
+                name: string
+                count: number
+            }>
         },
-        cooperList: [] as any,
+        cooperList: [] as CooperItem[],
         searchFilter: ''
     }
     public dialog: AddItemDialog | null = new AddItemDialog()
@@ -40,7 +53,7 @@ export default class Cooper extends MiniReact.Component {
         this.dialog = null
     }
 
-    public addTag(event: MouseEvent, item: any): void {
+    public addTag(event: MouseEvent, item: CooperItem): void {
         const { x, y } = event
         if (!this.dialog) {
             return
@@ -59,12 +72,17 @@ export default class Cooper extends MiniReact.Component {
         }
     }
 
-    public removeTag(item: any, tag: any): void {
+    public removeTag(
+        item: CooperItem,
+        tag: {
+            title: string
+        }
+    ): void {
         const index = item.tags.findIndex(t => t === tag)
         item.tags.splice(index, 1)
         this.setState()
     }
-    public stateToggle(item: any): void {
+    public stateToggle(item: CooperItem): void {
         if (item.status === 'idle') {
             item.status = 'building'
         } else {
@@ -142,8 +160,8 @@ export default class Cooper extends MiniReact.Component {
                 </ul>
                 <ul className="cooper-list">
                     {this.state.cooperList
-                        .filter((cooper: any) => cooper.title.indexOf(this.state.searchFilter) !== -1)
-                        .map((item: any) => (
+                        .filter(cooper => cooper.title.indexOf(this.state.searchFilter) !== -1)
+                        .map(item => (
                             <li className="cooper-list-item" building={item.status === 'building'}>
                                 <div className="logo">
                                     <img src={require('@/' + item.icon)} />
