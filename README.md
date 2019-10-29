@@ -11,6 +11,7 @@
     - [x] **Lint**
     - [x] **JsxFactory**
 - [ ] **Diff Engine** [Reconciliation](https://reactjs.org/docs/reconciliation.html), [Article](https://github.com/hujiulong/blog/issues/4)
+    - [x] **Core**
     - [x] **Element**
     - [x] **Component**
     - [x] **Attribute**
@@ -33,9 +34,11 @@
     - [x] **Loading**
     - [ ] **Form**
 - [x] **Async Queue** [Why is setState asynchronous?](https://github.com/facebook/react/issues/11527)
-- [x] **Router** [Build your own React Router v4](https://tylermcginnis.com/build-your-own-react-router-v4/)
-    - [x] **Route**
-    - [x] **Link**
+- [ ] **Router** [Build your own React Router v4](https://tylermcginnis.com/build-your-own-react-router-v4/)
+    - [x] **Route Component**
+    - [x] **Link Component**
+    - [x] **History Route**
+    - [ ] **Hash Route**
 - [x] **Dynamic Import** 
     - [x] **Dynamic Component**
     - [x] **Dynamic Route** [React-router-code-splitting](https://tylermcginnis.com/react-router-code-splitting/)
