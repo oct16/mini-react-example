@@ -14,7 +14,7 @@ export default class LeftSide extends MiniReact.Component {
             {
                 name: 'DASHBOARD',
                 icon: 'icofont-dashboard',
-                to: '/mini-react/dashboard'
+                to: '/mini-react/dashboard/'
             },
             {
                 name: 'COOPER',
@@ -24,12 +24,12 @@ export default class LeftSide extends MiniReact.Component {
             {
                 name: 'MY TEST',
                 icon: 'icofont-magento',
-                to: '/mini-react/my'
+                to: '/mini-react/my/'
             },
             {
                 name: 'HELP',
                 icon: 'icofont-files-stack',
-                to: '/mini-react/help'
+                to: '/mini-react/help/'
             }
         ]
     }
