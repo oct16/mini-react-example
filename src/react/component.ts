@@ -1,5 +1,5 @@
 import { ElNode, VNode } from '@/lib/model'
-import { diffNode, renderComponent } from '@/react-dom/diff'
+import { renderComponent } from '@/react-dom/diff'
 import { replaceNode } from '@/react-dom/dom'
 import LifeCycle from './life-cycle'
 

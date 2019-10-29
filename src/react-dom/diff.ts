@@ -7,7 +7,7 @@ import Component from '@/react/component'
  * Diff self and all children
  *
  */
-export function diffNode(vNode: VNode, node: ElNode) {
+export function diffNode(vNode: VNode | null, node: ElNode) {
     if (vNode === null || vNode === undefined) {
         return null
     }
@@ -34,7 +34,7 @@ export function diffNode(vNode: VNode, node: ElNode) {
  * Update dom in the final
  *
  */
-function diffChildren(vNode: VNode, node: Element): void {
+function diffChildren(vNode: VNode, node: InstanceElement): void {
     const nodeChildren = node ? (Array.from(node.childNodes).slice() as Element[]) : []
     const vNodeChildren = vNode.children.slice()
     vNodeChildren.forEach(vChild => {
@@ -47,17 +47,41 @@ function diffChildren(vNode: VNode, node: Element): void {
                 break
             }
         }
-        const lastNode = child
+
+        const oldChild = child
         child = diffNode(vChild, child)
         if (child) {
-            updateDom(node, lastNode, child)
+            updateDom(node, oldChild, child)
         }
     })
 
     if (nodeChildren.length) {
-        const child = findAllChild(nodeChildren)
-        child.forEach(c => unmountComponent((c as InstanceElement).instance as Component))
+        unmountAllChild(nodeChildren)
         nodeChildren.forEach(n => replaceNode(n))
+    }
+}
+
+/**
+ *
+ * Find all children of the node and find that instance of a Component
+ * but don't unmount Route Component instance
+ *
+ */
+function unmountAllChild(children: Element[]): void {
+    if (children.length) {
+        const child = findAllChild(children)
+        const unmountInstances = child
+            .filter((iEl: InstanceElement) => {
+                if (iEl.instance) {
+                    if (iEl.instance.constructor.name === 'Route') {
+                        return false
+                    }
+                    return iEl.instance
+                }
+                return false
+            })
+            .map((iEl: InstanceElement) => iEl.instance)
+        unmountInstances.forEach(c => unmountComponent(c as Component))
     }
 }
 
@@ -180,7 +204,7 @@ export function diffComponent(vNode: VNode, node: InstanceElement): Element | nu
                 instanceCache.componentWillUnmount()
             }
             // replaceNode(node)
-            node.instance = null
+            node.instance = undefined
             instanceCache.node = null
         }
         // replace by new node
@@ -242,7 +266,7 @@ export function wrapComponent(
  * transform it to really node and mount instance to the node
  *
  */
-export function renderComponent(instance: Component): Element {
+export function renderComponent(instance: Component): Element | null {
     const { componentWillUpdate, componentDidUpdate, componentDidMount, componentWillMount, render } = instance
 
     if (!instance.node && componentWillMount) {
@@ -299,6 +323,9 @@ function diffText(textNode: string, node: ElNode | null): Element {
     } else {
         // hard replace node
         output = document.createTextNode(textNode)
+        if (node) {
+            unmountAllChild([node])
+        }
         replaceNode(node, output)
     }
     return output

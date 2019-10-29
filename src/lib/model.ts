@@ -8,5 +8,5 @@ export interface VNode {
     key?: number
 }
 export interface InstanceElement extends Element {
-    instance: Component | null
+    instance?: Component
 }

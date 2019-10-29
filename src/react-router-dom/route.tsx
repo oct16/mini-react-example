@@ -1,10 +1,12 @@
 import { VNode } from '@/lib/model'
 import { wrapComponent } from '@/react-dom/diff'
-import DynamicImport from '@/react-router-dom/dynamic-import'
 import Component from '@/react/component'
 import { matchPath, register, unRegister, updateRoutes } from './helper'
 
 export class Route extends Component {
+    constructor(props) {
+        super(props)
+    }
     public componentWillMount(): void {
         addEventListener('popstate', this.handlePop)
         register(this)

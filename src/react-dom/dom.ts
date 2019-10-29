@@ -51,9 +51,7 @@ export function setAttribute(node: HTMLElement, name: string, value: string | bo
 /**
  *
  * Remove or Replace a node
- * @export
- * @param {ElNode} node
- * @param {Element} [newNode]
+ *
  */
 export function replaceNode(node: ElNode, newNode?: Element): void {
     if (node && node.parentNode) {

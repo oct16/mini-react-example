@@ -1,6 +1,7 @@
 import { VNode } from '@/lib/model'
+import Component from './component'
 
-export default function createElement(tagName: string, attributes: { [key: string]: any }, ...children: any[]): VNode {
+export default function createElement(tagName: string | Component, attributes: { [key: string]: any }, ...children: any[]): VNode {
     return {
         key: (attributes && attributes.key) || null,
         attributes,
