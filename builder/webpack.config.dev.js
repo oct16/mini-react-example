@@ -1,15 +1,15 @@
 const webpackConfig = require('./webpack.config')
-const webpack = require('webpack')
 const merge = require('webpack-merge')
-const path = require('path')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const devConfig = {
     mode: 'development',
-    output: {
-        filename: '[name].[hash].js',
-        path: path.resolve(__dirname, '../dist/mini-react')
-    },
-    plugins: [new webpack.HotModuleReplacementPlugin()],
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id].css'
+        })
+    ],
     devServer: {
         open: true,
         openPage: 'mini-react',

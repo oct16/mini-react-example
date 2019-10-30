@@ -1,12 +1,10 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const devMode = process.env.NODE_ENV !== 'production'
-
 module.exports = {
     entry: path.resolve(__dirname, '../src/index.tsx'),
     output: {
-        filename: '[name].[hash].js',
+        filename: '[name].[hash:8].js',
         path: path.resolve(__dirname, '../dist/mini-react')
     },
     devtool: 'source-map',
@@ -41,18 +39,12 @@ module.exports = {
                 use: ['pug-loader']
             },
             {
-                test: /\.(html)$/,
-                use: {
-                    loader: 'html-loader'
-                }
-            },
-            {
                 test: /\.(jpe?g|png|gif|svg|eot|woff\d?|ttf)$/,
                 use: [
                     {
-                        loader: 'url-loader',
+                        loader: 'file-loader',
                         options: {
-                            limit: 0
+                            name: '[sha512:hash:base64:8].[ext]'
                         }
                     }
                 ]
@@ -61,12 +53,15 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: 'index.html'
-        }),
-        new MiniCssExtractPlugin({
-            filename: devMode ? '[name].css' : '[hash].css',
-            chunkFilename: devMode ? '[id].css' : '[hash].css'
+            template: path.resolve(__dirname, '../src/index.pug'),
+            filename: 'index.html',
+            title: 'Mini React Demo By © 2019 OCT16',
+            meta: {
+                'UTF-8': { charset: 'UTF-8' },
+                viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no',
+                'X-UA-Compatible': { 'http-equiv': 'X-UA-Compatible', content: 'ie=edge' }
+            },
+            env: process.env
         })
     ],
     resolve: {
