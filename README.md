@@ -42,13 +42,18 @@
 - [x] **Dynamic Import** 
     - [x] **Dynamic Component**
     - [x] **Dynamic Route** [React-router-code-splitting](https://tylermcginnis.com/react-router-code-splitting/)
-- [ ] **Redux** [How-to-create-your-own-redux](https://medium.com/@patrykandrzejewski/how-to-create-your-own-redux-9f89a80875e5), [Mind Map](https://camo.githubusercontent.com/205d8ea65dbc31e17e8c66b155ff835e9aca6801/68747470733a2f2f692e6c6f6c692e6e65742f323031392f30312f30392f356333356238383634323432652e706e67)
+- [ ] **Redux** [How-to-create-your-own-redux](https://medium.com/@patrykandrzejewski/how-to-create-your-own-redux-9f89a80875e5)
      - [ ] **Connect**
      - [ ] **Provider**
      - [ ] **mapStateToProps**
      - [ ] **mapDispatchToProps**
-- [ ] **Hooks** [React hooks not magic just arrays](https://medium.com/@ryardley/react-hooks-not-magic-just-arrays-cd4f1857236e), [How do React hooks really work](https://www.netlify.com/blog/2019/03/11/deep-dive-how-do-react-hooks-really-work/)
-- [ ] **SSR**
+- [ ] **Feature**
+    - [ ] **Fragment**
+    - [ ] **HOC**
+    - [ ] **portals**
+    - [ ] **Hooks** [React hooks not magic just arrays](https://medium.com/@ryardley/react-hooks-not-magic-just-arrays-cd4f1857236e), [How do React hooks really work](https://www.netlify.com/blog/2019/03/11/deep-dive-how-do-react-hooks-really-work/)
+    - [ ] **SSR**
+    - [ ] **...**
 - [ ] **...**
 
 
