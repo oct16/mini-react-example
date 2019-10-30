@@ -193,7 +193,7 @@ export default class Cooper extends MiniReact.Component {
                                         </li>
                                     </ul>
                                     <div className="detail-bottom">
-                                        <button className="add-button" onClick={e => this.addTag(e, item)}>
+                                        <button className="add-button" onClick={(e: MouseEvent) => this.addTag(e, item)}>
                                             <i className="icofont-ui-add"></i>
                                         </button>
                                         <ul className="tags">
