@@ -39,6 +39,7 @@ class StateQueue {
             } else {
                 Object.assign(component.state, newState)
             }
+
             component.preState = component.state
         }
 

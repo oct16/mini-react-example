@@ -268,11 +268,33 @@ export function wrapComponent(
  *
  */
 export function renderComponent(instance: Component): Element | null {
-    const { componentWillUpdate, componentDidUpdate, componentDidMount, componentWillMount, render } = instance
+    const {
+        componentWillUpdate,
+        componentWillReceiveProps,
+        componentDidUpdate,
+        shouldComponentUpdate,
+        componentDidMount,
+        componentWillMount,
+        render,
+        state,
+        props
+    } = instance
+
+    if (componentWillReceiveProps) {
+        componentWillReceiveProps(instance.state)
+    }
+
+    if (shouldComponentUpdate) {
+        const showUpdate = shouldComponentUpdate(props, state)
+        if (!showUpdate) {
+            return instance.node
+        }
+    }
 
     if (!instance.node && componentWillMount) {
         componentWillMount.call(instance)
     }
+
     const vNode = render.call(instance)
 
     if (typeof vNode === 'function') {
