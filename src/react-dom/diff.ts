@@ -7,7 +7,7 @@ import Component from '@/react/component'
  * Diff self and all children
  *
  */
-export function diffNode(vNode: VNode | null, node: Element | null) {
+export function diffNode(vNode: VNode | null, node: Element | null): Element | null {
     if (vNode === null || vNode === undefined) {
         return null
     }
@@ -96,7 +96,7 @@ function findAllChild(children: Element[]): Element[] {
     children.forEach(c => {
         result.push(c)
         if (c.childNodes.length) {
-            result = result.concat(findAllChild(c.childNodes as any))
+            result = result.concat(findAllChild(Array.from(c.childNodes) as Element[]))
         }
     })
     return result
@@ -183,7 +183,10 @@ function isSameNodeType(vNode: VNode, node: Element | null): boolean {
     }
 
     // component type
-    return node && (node as any).instance && (node as any).instance.constructor === vNode.tagName
+    if (node && node.instance) {
+        return node.instance.constructor === vNode.tagName
+    }
+    return false
 }
 
 /**
@@ -196,7 +199,7 @@ export function diffComponent(vNode: VNode, node: Element | null): Element | nul
 
     // If the component constructor has not changed than is the same component
     // Reset the props and to render component
-    if (instanceCache && instanceCache.constructor === (vNode.tagName as any)) {
+    if (instanceCache && instanceCache.constructor === vNode.tagName) {
         instanceCache.setState(vNode.attributes)
         return node
     } else {
@@ -228,11 +231,14 @@ export function diffComponent(vNode: VNode, node: Element | null): Element | nul
 function createComponent(vNode: VNode) {
     const attrs = vNode.attributes
     const props = attrs
-    const componentConstructor = vNode.tagName as any
+    const componentConstructor = vNode.tagName as new (props: { [key: string]: any }) => any
     return constructComponent(componentConstructor, props)
 }
 
-function constructComponent(func: any, props: { [key: string]: any } = {}): Component {
+function constructComponent(
+    func: new (props: { [key: string]: any }) => any,
+    props: { [key: string]: any } = {}
+): Component {
     return new func(props)
 }
 
@@ -244,7 +250,7 @@ function constructComponent(func: any, props: { [key: string]: any } = {}): Comp
  */
 export function wrapComponent(
     wrapTagName: string,
-    tagName: string | Component<{}, {}>,
+    tagName: string | Function,
     wrapProps: { [key: string]: any } = {},
     props: { [key: string]: any } = {}
 ): VNode {
@@ -298,7 +304,7 @@ export function renderComponent(instance: Component): Element | null {
     const vNode = render.call(instance)
 
     if (typeof vNode === 'function') {
-        return diffNode(wrapComponent((vNode as { name: string }).name, vNode), instance.node)
+        return diffNode(wrapComponent((vNode as Function).name, vNode), instance.node)
     }
 
     if (instance.node && componentWillUpdate) {
@@ -337,8 +343,8 @@ export function renderComponent(instance: Component): Element | null {
  * NodeType: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
  *
  */
-function diffText(textNode: string, node: Element | null | null): Element {
-    let output: any
+function diffText(textNode: string, node: Element | null | null): Element | null {
+    let output: Element | Node
     // node is plain text
     if (node && node.nodeType === Node.TEXT_NODE) {
         // when text value is difference, replace
@@ -354,7 +360,7 @@ function diffText(textNode: string, node: Element | null | null): Element {
         }
         replaceNode(node, output)
     }
-    return output
+    return output as Element
 }
 
 function unmountComponent(instance: Component): void {

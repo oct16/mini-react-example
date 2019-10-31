@@ -51,7 +51,7 @@ export function setAttribute(node: HTMLElement, name: string, value: string | bo
  * Remove or Replace a node
  *
  */
-export function replaceNode(node: Element | null, newNode?: Element): void {
+export function replaceNode(node: Node | null, newNode?: Node): void {
     if (node && node.parentNode) {
         if (newNode) {
             node.parentNode.replaceChild(newNode, node)

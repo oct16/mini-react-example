@@ -4,7 +4,6 @@ import ForkGithub from './common/fork-github'
 import Footer from './cooper/footer'
 import Header from './cooper/header'
 import LeftSide from './cooper/left-side'
-import RightSide from './cooper/right-side'
 
 export default class App extends MiniReact.Component {
     constructor(props) {
@@ -20,7 +19,6 @@ export default class App extends MiniReact.Component {
                     <div className="app-content">
                         <LeftSide />
                         {Loadable({ loader: () => import('./cooper/right-side') })}
-                        {/* <RightSide /> */}
                     </div>
                     <Footer />
                 </div>
