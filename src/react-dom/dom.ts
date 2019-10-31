@@ -1,5 +1,3 @@
-import { ElNode } from '@/lib/model'
-
 /**
  *
  * There are three types of methods for setting attribute
@@ -53,7 +51,7 @@ export function setAttribute(node: HTMLElement, name: string, value: string | bo
  * Remove or Replace a node
  *
  */
-export function replaceNode(node: ElNode, newNode?: Element): void {
+export function replaceNode(node: Element | null, newNode?: Element): void {
     if (node && node.parentNode) {
         if (newNode) {
             node.parentNode.replaceChild(newNode, node)

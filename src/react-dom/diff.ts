@@ -1,4 +1,4 @@
-import { ElNode, InstanceElement, VNode } from '@/lib/model'
+import { VNode } from '@/lib/model'
 import { replaceNode, setAttribute } from '@/react-dom/dom'
 import Component from '@/react/component'
 
@@ -7,17 +7,18 @@ import Component from '@/react/component'
  * Diff self and all children
  *
  */
-export function diffNode(vNode: VNode | null, node: ElNode) {
+export function diffNode(vNode: VNode | null, node: Element | null) {
     if (vNode === null || vNode === undefined) {
         return null
     }
+
     if (typeof vNode === 'string' || typeof vNode === 'number') {
         return diffText(vNode, node)
     } else if (typeof vNode.tagName === 'function') {
-        return diffComponent(vNode, node as InstanceElement)
+        return diffComponent(vNode, node)
     }
 
-    const output = !node || !isSameNodeType(vNode, node) ? createNode(vNode, node) : (node as Element)
+    const output = !node || !isSameNodeType(vNode, node) ? createNode(vNode, node) : node
 
     if ((vNode.children && vNode.children.length) || (output.childNodes && output.childNodes.length)) {
         diffChildren(vNode, output)
@@ -34,14 +35,14 @@ export function diffNode(vNode: VNode | null, node: ElNode) {
  * Update dom in the final
  *
  */
-function diffChildren(vNode: VNode, node: InstanceElement): void {
+function diffChildren(vNode: VNode, node: Element): void {
     const nodeChildren = node ? (Array.from(node.childNodes).slice() as Element[]) : []
     const vNodeChildren = vNode.children.slice()
     vNodeChildren.forEach(vChild => {
         let child: Element | null = null
         for (let j = 0; j < nodeChildren.length; j++) {
             const subNode = nodeChildren[j]
-            if (isSameNodeType(vChild, subNode as Element)) {
+            if (isSameNodeType(vChild, subNode)) {
                 child = nodeChildren[j]
                 nodeChildren.splice(j, 1)
                 break
@@ -71,16 +72,16 @@ function unmountAllChild(children: Element[]): void {
     if (children.length) {
         const child = findAllChild(children)
         const unmountInstances = child
-            .filter((iEl: InstanceElement) => {
-                if (iEl.instance) {
-                    if (iEl.instance.constructor.name === 'Route') {
+            .filter(el => {
+                if (el.instance) {
+                    if (el.instance.constructor.name === 'Route') {
                         return false
                     }
-                    return iEl.instance
+                    return el.instance
                 }
                 return false
             })
-            .map((iEl: InstanceElement) => iEl.instance)
+            .map(el => el.instance)
         unmountInstances.forEach(c => unmountComponent(c as Component))
     }
 }
@@ -114,7 +115,7 @@ function updateDom(node: Element, oldChild: Element | null, newChild: Element): 
         }
 
         if (newChild === oldChild.nextSibling) {
-            replaceNode(oldChild as Element)
+            replaceNode(oldChild)
             return
         }
 
@@ -151,7 +152,7 @@ function diffAttributes(vNode: VNode, node: Element): void {
  * create a node by vNode and copy children
  *
  */
-function createNode(vNode: VNode, node: ElNode): Element {
+function createNode(vNode: VNode, node: Element | null): Element {
     const output = document.createElement(vNode.tagName as string)
     if (node) {
         const childNodes = Array.from(node.childNodes)
@@ -166,7 +167,7 @@ function createNode(vNode: VNode, node: ElNode): Element {
  * Compare virtual node and real node whether the same type or not
  *
  */
-function isSameNodeType(vNode: VNode, node: ElNode): boolean {
+function isSameNodeType(vNode: VNode, node: Element | null): boolean {
     if (!node) {
         return false
     }
@@ -190,21 +191,21 @@ function isSameNodeType(vNode: VNode, node: ElNode): boolean {
  * Diff Component type node
  *
  */
-export function diffComponent(vNode: VNode, node: InstanceElement): Element | null {
-    const instanceCache = node && (node as InstanceElement).instance
+export function diffComponent(vNode: VNode, node: Element | null): Element | null {
+    const instanceCache = node && node.instance
 
     // If the component constructor has not changed than is the same component
     // Reset the props and to render component
     if (instanceCache && instanceCache.constructor === (vNode.tagName as any)) {
         instanceCache.setState(vNode.attributes)
-        return node as Element
+        return node
     } else {
         if (instanceCache) {
             if (instanceCache.componentWillUnmount) {
                 instanceCache.componentWillUnmount()
             }
             // replaceNode(node)
-            node.instance = undefined
+            node!.instance = undefined
             instanceCache.node = null
         }
         // replace by new node
@@ -275,7 +276,7 @@ export function renderComponent(instance: Component): Element | null {
     const vNode = render.call(instance)
 
     if (typeof vNode === 'function') {
-        return diffNode(wrapComponent((vNode as { name: string }).name, vNode), instance.node) as Element
+        return diffNode(wrapComponent((vNode as { name: string }).name, vNode), instance.node)
     }
 
     if (instance.node && componentWillUpdate) {
@@ -284,8 +285,11 @@ export function renderComponent(instance: Component): Element | null {
         }
     }
 
-    let node: InstanceElement
-    node = diffNode(vNode, instance.node) as InstanceElement
+    let node: Element | null
+    node = diffNode(vNode, instance.node)
+    if (!node) {
+        return null
+    }
 
     if (instance.node) {
         if (componentDidUpdate) {
@@ -311,7 +315,7 @@ export function renderComponent(instance: Component): Element | null {
  * NodeType: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
  *
  */
-function diffText(textNode: string, node: ElNode | null): Element {
+function diffText(textNode: string, node: Element | null | null): Element {
     let output: any
     // node is plain text
     if (node && node.nodeType === Node.TEXT_NODE) {
@@ -344,7 +348,7 @@ function unmountComponent(instance: Component): void {
  * For bootstrap step
  *
  */
-export default function diff(vNode: VNode, node: ElNode, container?: Element): Element | null {
+export default function diff(vNode: VNode, node: Element | null, container?: Element): Element | null {
     if (!vNode) {
         return null
     }

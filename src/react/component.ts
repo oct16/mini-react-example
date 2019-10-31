@@ -1,11 +1,11 @@
-import { ElNode, VNode } from '@/lib/model'
+import { VNode } from '@/lib/model'
 import { renderComponent } from '@/react-dom/diff'
 import { replaceNode } from '@/react-dom/dom'
 import LifeCycle from './life-cycle'
-
 import queue from './queue'
+
 abstract class Component<P = {}, S = {}> extends LifeCycle {
-    public node: ElNode
+    public node: Element | null
     public state: { [key: string]: any } = {}
 
     // for async queue

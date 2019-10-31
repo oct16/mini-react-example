@@ -1,11 +1,6 @@
-declare module '*.png' {
-    const content: any
-    export default content
-}
-declare module '*.styl' {
-    const content: any
-    export default content
-}
+
+declare module '*.styl'
+declare module '*.png'
 
 declare namespace JSX {
     interface ElementAttributesProperty {
