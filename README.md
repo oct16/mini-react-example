@@ -16,11 +16,11 @@
     - [x] **Component**
     - [x] **Attribute**
     - [ ] **Key Strategy**
-- [ ] **Life Cycle**
+- [x] **Life Cycle**
     - [x] **componentWillMount**
     - [x] **componentDidMount**
     - [x] **componentWillReceiveProps**
-    - [ ] **shouldComponentUpdate**
+    - [x] **shouldComponentUpdate**
     - [x] **componentDidUpdate**
     - [x] **componentWillUnmount**
 - [x] **Props**
