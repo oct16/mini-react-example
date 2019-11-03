@@ -1,3 +1,5 @@
+const specialKeys = ['component']
+
 /**
  *
  * There are three types of methods for setting attribute
@@ -29,6 +31,12 @@ export function setAttribute(node: HTMLElement, name: string, value: string | bo
         node.setAttribute('class', String(value) || '')
         return
     } else if (name === 'class') {
+        node.removeAttribute(name)
+        return
+    }
+
+    // remove specialKeys
+    if (~specialKeys.indexOf(name)) {
         node.removeAttribute(name)
         return
     }

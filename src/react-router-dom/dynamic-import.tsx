@@ -1,7 +1,7 @@
 import { VNode } from '@/lib/model'
 import MiniReact from '@/react'
 
-export default class DynamicImport extends MiniReact.Component {
+export default class Dynamic extends MiniReact.Component {
     public state = {
         component: null
     }

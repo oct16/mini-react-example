@@ -15,7 +15,13 @@ export function diffNode(vNode: VNode | null, node: Element | null): Element | n
     if (typeof vNode === 'string' || typeof vNode === 'number') {
         return diffText(vNode, node)
     } else if (typeof vNode.tagName === 'function') {
-        return diffComponent(vNode, node)
+        const elNode = diffComponent(vNode, node)
+        if (elNode) {
+            if (elNode && elNode.nodeType === Node.ELEMENT_NODE) {
+                diffAttributes(vNode, elNode as Element)
+            }
+        }
+        return elNode as Element
     }
 
     const output = !node || !isSameNodeType(vNode, node) ? createNode(vNode, node) : node
@@ -194,7 +200,7 @@ function isSameNodeType(vNode: VNode, node: Element | null): boolean {
  * Diff Component type node
  *
  */
-export function diffComponent(vNode: VNode, node: Element | null): Element | null {
+export function diffComponent(vNode: VNode, node: Element | null): Element | Node | null {
     const instanceCache = node && node.instance
 
     // If the component constructor has not changed than is the same component
@@ -203,16 +209,20 @@ export function diffComponent(vNode: VNode, node: Element | null): Element | nul
         instanceCache.setState(vNode.attributes)
         return node
     } else {
+        const instance = createComponent(vNode)
+
+        if (node && node.instance && node.instance.wrapNode) {
+            instance.wrapNode = node.instance.wrapNode
+        }
+
         if (instanceCache) {
             if (instanceCache.componentWillUnmount) {
                 instanceCache.componentWillUnmount()
             }
-            // replaceNode(node)
-            node!.instance = undefined
+
+            node!.instance = null
             instanceCache.node = null
         }
-        // replace by new node
-        const instance = createComponent(vNode)
 
         if (!instance.props) {
             instance.props = {}
@@ -240,31 +250,6 @@ function constructComponent(
     props: { [key: string]: any } = {}
 ): Component {
     return new func(props)
-}
-
-/**
- *
- * Wrap the component by self name by vNode
- * e.g. vNode = 'class Footer extend Component { ... }'
- *
- */
-export function wrapComponent(
-    wrapTagName: string,
-    tagName: string | Function,
-    wrapProps: { [key: string]: any } = {},
-    props: { [key: string]: any } = {}
-): VNode {
-    return {
-        tagName: wrapTagName,
-        attributes: wrapProps,
-        children: [
-            {
-                tagName,
-                attributes: props,
-                children: []
-            }
-        ]
-    }
 }
 
 /**
@@ -304,7 +289,18 @@ export function renderComponent(instance: Component): Element | null {
     const vNode = render.call(instance)
 
     if (typeof vNode === 'function') {
-        return diffNode(wrapComponent((vNode as Function).name, vNode), instance.node)
+        if (instance.node) {
+            instance.wrapNode = instance.node
+            instance.node!.instance = instance
+        }
+        return diffNode(
+            {
+                tagName: vNode,
+                attributes: {},
+                children: []
+            },
+            instance.node
+        )
     }
 
     if (instance.node && componentWillUpdate) {
@@ -314,7 +310,7 @@ export function renderComponent(instance: Component): Element | null {
     }
 
     let node: Element | null
-    node = diffNode(vNode, instance.node)
+    node = diffNode(vNode, instance.node || instance.wrapNode)
     if (!node) {
         return null
     }

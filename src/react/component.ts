@@ -6,6 +6,7 @@ import queue from './queue'
 
 abstract class Component<P = {}, S = {}> extends LifeCycle {
     public node: Element | null
+    public wrapNode: Element | null
     public state: { [key: string]: any } = {}
 
     // for async queue

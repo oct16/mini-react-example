@@ -1,5 +1,4 @@
 import { VNode } from '@/lib/model'
-import { wrapComponent } from '@/react-dom/diff'
 import Component from '@/react/component'
 import { matchPath, register, unRegister, updateRoutes } from './helper'
 
@@ -29,7 +28,11 @@ export class Route extends Component {
         }
 
         if (component) {
-            return wrapComponent('route', component.tagName, props, component.attributes)
+            return {
+                tagName: 'route',
+                attributes: props,
+                children: [component]
+            }
         }
         return ('' as unknown) as VNode
     }

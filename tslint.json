@@ -15,7 +15,8 @@
             true,
             "allow-declarations"
         ],
-        "ban-types": false
+        "ban-types": false,
+        "no-bitwise": false
     },
     "rulesDirectory": []
 }
