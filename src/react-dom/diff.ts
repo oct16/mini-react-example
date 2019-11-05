@@ -14,7 +14,7 @@ export function diffNode(vNode: VNode | null, node: Element | null): Element | n
 
     if (typeof vNode === 'string' || typeof vNode === 'number') {
         return diffText(vNode, node)
-    } else if (typeof vNode.tagName === 'function') {
+    } else if (typeof vNode.tag === 'function') {
         const elNode = diffComponent(vNode, node)
         if (elNode) {
             if (elNode && elNode.nodeType === Node.ELEMENT_NODE) {
@@ -27,7 +27,7 @@ export function diffNode(vNode: VNode | null, node: Element | null): Element | n
     const output = !node || !isSameNodeType(vNode, node) ? createNode(vNode, node) : node
 
     if ((vNode.children && vNode.children.length) || (output.childNodes && output.childNodes.length)) {
-        diffChildren(vNode, output)
+        diffTree(vNode, output)
     }
 
     diffAttributes(vNode, output)
@@ -41,7 +41,7 @@ export function diffNode(vNode: VNode | null, node: Element | null): Element | n
  * Update dom in the final
  *
  */
-function diffChildren(vNode: VNode, node: Element): void {
+function diffTree(vNode: VNode, node: Element): void {
     const nodeChildren = node ? (Array.from(node.childNodes).slice() as Element[]) : []
     const vNodeChildren = vNode.children.slice()
     vNodeChildren.forEach(vChild => {
@@ -49,8 +49,7 @@ function diffChildren(vNode: VNode, node: Element): void {
         for (let j = 0; j < nodeChildren.length; j++) {
             const subNode = nodeChildren[j]
             if (isSameNodeType(vChild, subNode)) {
-                child = nodeChildren[j]
-                nodeChildren.splice(j, 1)
+                ;[child] = nodeChildren.splice(j, 1)
                 break
             }
         }
@@ -88,7 +87,8 @@ function unmountAllChild(children: Element[]): void {
                 return false
             })
             .map(el => el.instance)
-        unmountInstances.forEach(c => unmountComponent(c as Component))
+            .filter(Boolean) as Component[]
+        unmountInstances.forEach(c => unmountComponent(c))
     }
 }
 
@@ -137,7 +137,7 @@ function updateDom(node: Element, oldChild: Element | null, newChild: Element): 
  */
 function diffAttributes(vNode: VNode, node: Element): void {
     const cachedAttrs = new Map()
-    const attrs = vNode.attributes
+    const attrs = vNode.attrs
 
     for (const attr of node.attributes) {
         cachedAttrs.set(attr.name, attr.value)
@@ -159,7 +159,7 @@ function diffAttributes(vNode: VNode, node: Element): void {
  *
  */
 function createNode(vNode: VNode, node: Element | null): Element {
-    const output = document.createElement(vNode.tagName as string)
+    const output = document.createElement(vNode.tag as string)
     if (node) {
         const childNodes = Array.from(node.childNodes)
         childNodes.forEach(childNode => output.appendChild(childNode))
@@ -184,13 +184,13 @@ function isSameNodeType(vNode: VNode, node: Element | null): boolean {
     }
 
     // element node type
-    if (typeof vNode.tagName === 'string') {
-        return node.nodeName.toLowerCase() === vNode.tagName.toLowerCase() && node.nodeType === Node.ELEMENT_NODE
+    if (typeof vNode.tag === 'string') {
+        return node.nodeName.toLowerCase() === vNode.tag.toLowerCase() && node.nodeType === Node.ELEMENT_NODE
     }
 
     // component type
     if (node && node.instance) {
-        return node.instance.constructor === vNode.tagName
+        return node.instance.constructor === vNode.tag
     }
     return false
 }
@@ -205,8 +205,8 @@ export function diffComponent(vNode: VNode, node: Element | null): Element | Nod
 
     // If the component constructor has not changed than is the same component
     // Reset the props and to render component
-    if (instanceCache && instanceCache.constructor === vNode.tagName) {
-        instanceCache.setState(vNode.attributes)
+    if (instanceCache && instanceCache.constructor === vNode.tag) {
+        instanceCache.setState(vNode.attrs)
         return node
     } else {
         const instance = createComponent(vNode)
@@ -234,14 +234,14 @@ export function diffComponent(vNode: VNode, node: Element | null): Element | Nod
 
 /**
  *
- * Create a Component Type node if the tagName's type equal function
+ * Create a Component Type node if the tag's type equal function
  * @param {VNode} vNode
  * @returns
  */
 function createComponent(vNode: VNode) {
-    const attrs = vNode.attributes
+    const attrs = vNode.attrs
     const props = attrs
-    const componentConstructor = vNode.tagName as new (props: { [key: string]: any }) => any
+    const componentConstructor = vNode.tag as new (props: { [key: string]: any }) => any
     return constructComponent(componentConstructor, props)
 }
 
@@ -295,8 +295,8 @@ export function renderComponent(instance: Component): Element | null {
         }
         return diffNode(
             {
-                tagName: vNode,
-                attributes: {},
+                tag: vNode,
+                attrs: {},
                 children: []
             },
             instance.node

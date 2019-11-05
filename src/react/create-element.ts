@@ -1,14 +1,14 @@
 import { VNode } from '@/lib/model'
 
 export default function createElement(
-    tagName: string | Function,
-    attributes: { [key: string]: any },
+    tag: string | Function,
+    attrs: { [key: string]: any },
     ...children: VNode[]
 ): VNode {
     return {
-        key: (attributes && attributes.key) || null,
-        attributes,
-        tagName,
+        key: (attrs && attrs.key) || null,
+        attrs,
+        tag,
         children: flatten(children)
     }
 }

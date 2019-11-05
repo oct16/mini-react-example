@@ -1,7 +1,7 @@
 import Component from '@/react/component'
 export interface VNode {
-    attributes: { [key: string]: any }
+    attrs: { [key: string]: any }
     children: VNode[]
-    tagName: string | Function
+    tag: string | Function
     key?: number
 }

@@ -29,8 +29,8 @@ export class Route extends Component {
 
         if (component) {
             return {
-                tagName: 'route',
-                attributes: props,
+                tag: 'route',
+                attrs: props,
                 children: [component]
             }
         }
