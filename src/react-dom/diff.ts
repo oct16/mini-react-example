@@ -203,12 +203,13 @@ function isSameNodeType(vNode: VNode, node: Element | null): boolean {
 export function diffComponent(vNode: VNode, node: Element | null): Element | Node | null {
     const instanceCache = node && node.instance
 
-    // If the component constructor has not changed than is the same component
-    // Reset the props and to render component
+    // If the component constructor has not changed then it's the same component
+    // Reset the props and to render the component
     if (instanceCache && instanceCache.constructor === vNode.tag) {
         instanceCache.setState(vNode.attrs)
         return node
     } else {
+        // create a new component and replace
         const instance = createComponent(vNode)
 
         if (node && node.instance && node.instance.wrapNode) {
