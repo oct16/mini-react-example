@@ -1,4 +1,4 @@
-import Loadable from '@/react-router-dom/loadable'
+import { Loadable } from '@/react-router-dom/loadable'
 import MiniReact from '@/react/index'
 import ForkGithub from './common/fork-github'
 import Footer from './cooper/footer'

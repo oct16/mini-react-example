@@ -55,4 +55,4 @@ class StateQueue {
     }
 }
 
-export default new StateQueue()
+export const queue = new StateQueue()

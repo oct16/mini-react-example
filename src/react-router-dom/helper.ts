@@ -2,7 +2,7 @@ import Component from '@/react/component'
 
 export const instances: Component[] = []
 
-export function register(instance): void {
+export function register(instance: Component): void {
     instances.push(instance)
 }
 

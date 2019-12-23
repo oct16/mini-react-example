@@ -1,4 +1,4 @@
-export default class LifeCycle {
+export class LifeCycle {
     public componentWillMount?(): void
     public componentWillUpdate?(): void
     public componentDidMount?(): void

@@ -1,5 +1,5 @@
 import { VNode } from '@/lib/model'
-import Loadable from '@/react-router-dom/loadable'
+import { Loadable } from '@/react-router-dom/loadable'
 import { Route } from '@/react-router-dom/route'
 import MiniReact from '@/react/index'
 import Loading from '../common/loading'
